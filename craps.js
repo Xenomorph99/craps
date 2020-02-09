@@ -82,7 +82,7 @@ var Craps = {};
       // Set the appropriate bets
       Craps.placeBets();
 
-      // Calling the dice
+      // Throwing and calling the dice
       Craps.throwDice();
 
       // Run the calculation
@@ -130,7 +130,7 @@ var Craps = {};
 
       Craps.winnings = 0;
 
-      // Place bets
+      // Calculate place bets
       if(Craps.bet.place.four && Craps.call === 4) {
         if(Craps.point) {
           Craps.winnings = Craps.winnings + Math.floor(Craps.bet.place.four * (9/5));
@@ -162,7 +162,7 @@ var Craps = {};
         }
       }
 
-      // Buy bets
+      // Calculate buy bets
       if(Craps.bet.buy.four && Craps.call === 4) {
         Craps.winnings = Craps.winnings + Math.ceil((Craps.bet.buy.four * (2/1)) - (Craps.bet.buy.four * 0.05));
       }
@@ -182,7 +182,7 @@ var Craps = {};
         Craps.winnings = Craps.winnings + Math.ceil((Craps.bet.buy.ten * (2/1)) - (Craps.bet.buy.ten * 0.05));
       }
 
-      // Lay bets
+      // Calculate lay bets
       if(Craps.bet.lay.four && Craps.call === 7) {
           Craps.winnings = Craps.winnings + Math.ceil((Craps.bet.lay.four * (1/2)) - (Craps.bet.lay.four * 0.05));
       }
@@ -202,7 +202,7 @@ var Craps = {};
         Craps.winnings = Craps.winnings + Math.ceil((Craps.bet.lay.ten * (1/2)) - (Craps.bet.lay.ten * 0.05));
       }
 
-      // Come bets
+      // Calculate come bets
       if(Craps.bet.come.four && Craps.call === 4) {
           Craps.winnings = Craps.winnings + Craps.bet.come.four;
       }
@@ -222,7 +222,7 @@ var Craps = {};
           Craps.winnings = Craps.winnings + Craps.bet.come.ten;
       }
 
-      // Odds bets
+      // Calculate odds bets
       if(Craps.bet.odds.four && Craps.call === 4) {
         Craps.winnings = Craps.winnings + (Craps.bet.odds.four * (2/1));
       }
@@ -242,12 +242,54 @@ var Craps = {};
         Craps.winnings = Craps.winnings + (Craps.bet.odds.ten * (2/1));
       }
 
+      // Calculate pass line bets
+      if(Craps.bet.passLine) {
+        if(Craps.point) {
+          if(Craps.call === Craps.point) {
+            Craps.winnings = Craps.winnings + Craps.bet.passLine;
+          }
+        } else {
+          if(Craps.call === 7 || Craps.call === 11) {
+            Craps.winnings = Craps.winnings + Craps.bet.passLine;
+          }
+        }
+      }
+
+      // Calculate pass line odds bets
+      if(Craps.bet.passLineOdds) {
+        if(Craps.point) {
+            if(Craps.call === Craps.point) {
+              if(Craps.call === 4) {
+                Craps.winnings = Craps.winnings + Math.floor(Craps.bet.passLineOdds * (9/5));
+              }
+              if(Craps.call === 5) {
+                Craps.winnings = Craps.winnings + Math.floor(Craps.bet.passLineOdds * (7/5));
+              }
+              if(Craps.call === 6) {
+                Craps.winnings = Craps.winnings + Math.floor(Craps.bet.passLineOdds * (7/6));
+              }
+              if(Craps.call === 8) {
+                Craps.winnings = Craps.winnings + Math.floor(Craps.bet.passLineOdds * (7/6));
+              }
+              if(Craps.call === 9) {
+                Craps.winnings = Craps.winnings + Math.floor(Craps.bet.passLineOdds * (7/5));
+              }
+              if(Craps.call === 10) {
+                Craps.winnings = Craps.winnings + Math.floor(Craps.bet.passLineOdds * (9/5));
+              }
+            }
+        } else {
+          // No payout if point is off?
+        }
+      }
+
+
+
+
 
       // console.log('Roll: ' + i + '; Dice: ' + Craps.call + '; Winnings:' + Craps.winnings + ';');
 
 
-      // passLine: 0,
-      // passLineOdds: 0,
       // dontPass: 0,
       // dontPassOdds: 0,
       // field: 0,
