@@ -150,8 +150,8 @@ var Craps = {};
 
     log: function(i) {
 
-      var dice = '(' + Craps.dice[0] + ',' + Craps.dice[1] + ')=' + Craps.call;
-      var point = (Craps.point) ? 'ON (' + Craps.point + ')' : "OFF";
+      var dice = Craps.dice[0] + '+' + Craps.dice[1] + '=(' + Craps.call + ')';
+      var point = (Craps.point) ? 'ON(' + Craps.point + ')' : "OFF";
 
       var logEntry = '<tr>';
       logEntry += Craps.tableCell(i); // #
@@ -167,27 +167,36 @@ var Craps = {};
 
     },
 
+    wonBet: function(val) {
+
+      Craps.winnings += val;
+      Craps.purse.amount += val;
+
+    },
+
+    lostBet: function(val) {
+
+      Craps.losses += val;
+
+    },
+
     calculate: function(i) {
+
+      var point = Craps.point;
+      var call = Craps.call;
 
       Craps.winnings = 0;
       Craps.losses = 0;
 
-      var point = Craps.point;
-      var call = Craps.call;
-      var winnings = Craps.winnings;
-      var losses = Craps.losses;
-      var val = 0;
-
       // CALCULATE PLACE BETS
       if(Craps.bet.place.four) {
+        Craps.lostBet(Craps.bet.place.four);
         if(point) {
           if(call === 4) {
-            val = Math.floor(Craps.bet.place.four * (9/5));
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Math.floor(Craps.bet.place.four * (9/5)));
           }
           if(call === 7) {
-            losses += Craps.bet.place.four;
+            Craps.lostBet(Craps.bet.place.four);
             Craps.bet.place.four = 0;
           }
         }
@@ -195,12 +204,10 @@ var Craps = {};
       if(Craps.bet.place.five) {
         if(point) {
           if(call === 5) {
-            val = Math.floor(Craps.bet.place.five * (7/5));
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Math.floor(Craps.bet.place.five * (7/5)));
           }
           if(call === 7) {
-            losses += Craps.bet.place.five;
+            Craps.lostBet(Craps.bet.place.five);
             Craps.bet.place.five = 0;
           }
         }
@@ -208,12 +215,10 @@ var Craps = {};
       if(Craps.bet.place.six) {
         if(point) {
           if(call === 6) {
-            val = Math.floor(Craps.bet.place.six * (7/6))
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Math.floor(Craps.bet.place.six * (7/6)));
           }
           if(call === 7) {
-            losses += Craps.bet.place.six;
+            Craps.lostBet(Craps.bet.place.six);
             Craps.bet.place.six = 0;
           }
         }
@@ -221,12 +226,10 @@ var Craps = {};
       if(Craps.bet.place.eight) {
         if(point) {
           if(call === 8) {
-            val = Math.floor(Craps.bet.place.eight * (7/6));
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Math.floor(Craps.bet.place.eight * (7/6)));
           }
           if(call === 7) {
-            losses += Craps.bet.place.eight;
+            Craps.lostBet(Craps.bet.place.eight);
             Craps.bet.place.eight = 0;
           }
         }
@@ -234,12 +237,10 @@ var Craps = {};
       if(Craps.bet.place.nine) {
         if(point) {
           if(call === 9) {
-            val = Math.floor(Craps.bet.place.nine * (7/5));
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Math.floor(Craps.bet.place.nine * (7/5)));
           }
           if(call === 7) {
-            losses += Craps.bet.place.nine;
+            Craps.lostBet(Craps.bet.place.nine);
             Craps.bet.place.nine = 0;
           }
         }
@@ -247,12 +248,10 @@ var Craps = {};
       if(Craps.bet.place.ten) {
         if(point) {
           if(call === 10) {
-            val = Math.floor(Craps.bet.place.ten * (9/5));
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Math.floor(Craps.bet.place.ten * (9/5)));
           }
           if(call === 7) {
-            losses += Craps.bet.place.ten;
+            Craps.lostBet(Craps.bet.place.ten);
             Craps.bet.place.ten = 0;
           }
         }
@@ -262,12 +261,10 @@ var Craps = {};
       if(Craps.bet.buy.four) {
         if(point) {
           if(call === 4) {
-            val = Math.ceil((Craps.bet.buy.four * (2/1)) - (Craps.bet.buy.four * 0.05));
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Math.ceil((Craps.bet.buy.four * (2/1)) - (Craps.bet.buy.four * 0.05)));
           }
           if(call === 7) {
-            losses += Craps.bet.buy.four;
+            Craps.lostBet(Craps.bet.buy.four);
             Craps.bet.buy.four = 0;
           }
         }
@@ -275,12 +272,10 @@ var Craps = {};
       if(Craps.bet.buy.five) {
         if(point) {
           if(call === 4) {
-            val = Math.ceil((Craps.bet.buy.five * (3/2)) - (Craps.bet.buy.five * 0.05));
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Math.ceil((Craps.bet.buy.five * (3/2)) - (Craps.bet.buy.five * 0.05)));
           }
           if(call === 7) {
-            losses += Craps.bet.buy.five;
+            Craps.lostBet(Craps.bet.buy.five);
             Craps.bet.buy.five = 0;
           }
         }
@@ -288,12 +283,10 @@ var Craps = {};
       if(Craps.bet.buy.six) {
         if(point) {
           if(call === 6) {
-            val = Math.ceil((Craps.bet.buy.six * (6/5)) - (Craps.bet.buy.six * 0.05));
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Math.ceil((Craps.bet.buy.six * (6/5)) - (Craps.bet.buy.six * 0.05)));
           }
           if(call === 7) {
-            losses += Craps.bet.buy.six;
+            Craps.lostBet(Craps.bet.buy.six);
             Craps.bet.buy.six = 0;
           }
         }
@@ -301,12 +294,10 @@ var Craps = {};
       if(Craps.bet.buy.eight) {
         if(point) {
           if(call === 8) {
-            val = Math.ceil((Craps.bet.buy.eight * (6/5)) - (Craps.bet.buy.eight * 0.05));
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Math.ceil((Craps.bet.buy.eight * (6/5)) - (Craps.bet.buy.eight * 0.05)));
           }
           if(call === 7) {
-            losses += Craps.bet.buy.eight;
+            Craps.lostBet(Craps.bet.buy.eight);
             Craps.bet.buy.eight = 0;
           }
         }
@@ -314,12 +305,10 @@ var Craps = {};
       if(Craps.bet.buy.nine) {
         if(point) {
           if(call === 9) {
-            val = Math.ceil((Craps.bet.buy.nine * (3/2)) - (Craps.bet.buy.nine * 0.05));
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Math.ceil((Craps.bet.buy.nine * (3/2)) - (Craps.bet.buy.nine * 0.05)));
           }
           if(call === 7) {
-            losses += Craps.bet.buy.nine;
+            Craps.lostBet(Craps.bet.buy.nine);
             Craps.bet.buy.nine = 0;
           }
         }
@@ -327,12 +316,10 @@ var Craps = {};
       if(Craps.bet.buy.ten) {
         if(point) {
           if(call === 10) {
-            val = Math.ceil((Craps.bet.buy.ten * (2/1)) - (Craps.bet.buy.ten * 0.05));
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Math.ceil((Craps.bet.buy.ten * (2/1)) - (Craps.bet.buy.ten * 0.05)));
           }
           if(call === 7) {
-            losses += Craps.bet.buy.ten;
+            Craps.lostBet(Craps.bet.buy.ten);
             Craps.bet.buy.ten = 0;
           }
         }
@@ -342,12 +329,10 @@ var Craps = {};
       if(Craps.bet.lay.four) {
         if(point) {
           if(call === 7) {
-            val = Math.ceil((Craps.bet.lay.four * (1/2)) - (Craps.bet.lay.four * 0.05));
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Math.ceil((Craps.bet.lay.four * (1/2)) - (Craps.bet.lay.four * 0.05)));
           }
           if(call === point) {
-            losses += Craps.bet.lay.four;
+            Craps.lostBet(Craps.bet.lay.four);
             Craps.bet.lay.four = 0;
           }
         }
@@ -355,12 +340,10 @@ var Craps = {};
       if(Craps.bet.lay.five) {
         if(point) {
           if(call === 7) {
-            val = Math.ceil((Craps.bet.lay.five * (2/3)) - (Craps.bet.lay.five * 0.05));
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Math.ceil((Craps.bet.lay.five * (2/3)) - (Craps.bet.lay.five * 0.05)));
           }
           if(call === point) {
-            losses += Craps.bet.lay.five;
+            Craps.lostBet(Craps.bet.lay.five);
             Craps.bet.lay.five = 0;
           }
         }
@@ -368,12 +351,10 @@ var Craps = {};
       if(Craps.bet.lay.six) {
         if(point) {
           if(call === 7) {
-            val = Math.ceil((Craps.bet.lay.six * (5/6)) - (Craps.bet.lay.six * 0.05));
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Math.ceil((Craps.bet.lay.six * (5/6)) - (Craps.bet.lay.six * 0.05)));
           }
           if(call === point) {
-            losses += Craps.bet.lay.six;
+            Craps.lostBet(Craps.bet.lay.six);
             Craps.bet.lay.six = 0;
           }
         }
@@ -382,12 +363,10 @@ var Craps = {};
       if(Craps.bet.lay.eight) {
         if(point) {
           if(call === 7) {
-            val = Math.ceil((Craps.bet.lay.eight * (5/6)) - (Craps.bet.lay.eight * 0.05));
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Math.ceil((Craps.bet.lay.eight * (5/6)) - (Craps.bet.lay.eight * 0.05)));
           }
           if(call === point) {
-            losses += Craps.bet.lay.eight;
+            Craps.lostBet(Craps.bet.lay.eight);
             Craps.bet.lay.eight = 0;
           }
         }
@@ -395,12 +374,10 @@ var Craps = {};
       if(Craps.bet.lay.nine) {
         if(point) {
           if(call === 7) {
-            val = Math.ceil((Craps.bet.lay.nine * (2/3)) - (Craps.bet.lay.nine * 0.05));
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Math.ceil((Craps.bet.lay.nine * (2/3)) - (Craps.bet.lay.nine * 0.05)));
           }
           if(call === point) {
-            losses += Craps.bet.lay.nine;
+            Craps.lostBet(Craps.bet.lay.nine);
             Craps.bet.lay.nine = 0;
           }
         }
@@ -408,12 +385,10 @@ var Craps = {};
       if(Craps.bet.lay.ten) {
         if(point) {
           if(call === 7) {
-            val = Math.ceil((Craps.bet.lay.ten * (1/2)) - (Craps.bet.lay.ten * 0.05));
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Math.ceil((Craps.bet.lay.ten * (1/2)) - (Craps.bet.lay.ten * 0.05)));
           }
           if(call === point) {
-            losses += Craps.bet.lay.ten;
+            Craps.lostBet(Craps.bet.lay.ten);
             Craps.bet.lay.ten = 0;
           }
         }
@@ -422,12 +397,10 @@ var Craps = {};
       // CALCULATE NEW COME BETS
       if(Craps.bet.newCome) {
         if(call === 7 || call === 11) {
-          val = Craps.bet.newCome;
-          winnings += val;
-          Craps.purse.amount += val;
+          Craps.wonBet(Craps.bet.newCome);
         }
         if(call === 2 || call === 3 || call === 12) {
-          losses += Craps.bet.newCome;
+          Craps.lostBet(Craps.bet.newCome);
           Craps.bet.newCome = 0;
         }
         if(call === 4) { // moves
@@ -460,12 +433,10 @@ var Craps = {};
       if(Craps.bet.come.four) {
         if(point) {
           if(call === 4) {
-            val = Craps.bet.come.four;
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Craps.bet.come.four);
           }
           if(call === 7) {
-            losses += Craps.bet.come.four;
+            Craps.lostBet(Craps.bet.come.four);
             Craps.bet.come.four = 0;
           }
         }
@@ -473,12 +444,10 @@ var Craps = {};
       if(Craps.bet.come.five) {
         if(point) {
           if(call === 5) {
-            val = Craps.bet.come.five;
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Craps.bet.come.five);
           }
           if(call === 7) {
-            losses += Craps.bet.come.five;
+            Craps.lostBet(Craps.bet.come.five);
             Craps.bet.come.five = 0;
           }
         }
@@ -486,12 +455,10 @@ var Craps = {};
       if(Craps.bet.come.six) {
         if(point) {
           if(call === 6) {
-            val = Craps.bet.come.six;
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Craps.bet.come.six);
           }
           if(call === 7) {
-            losses += Craps.bet.come.six;
+            Craps.lostBet(Craps.bet.come.six);
             Craps.bet.come.six = 0;
           }
         }
@@ -499,12 +466,10 @@ var Craps = {};
       if(Craps.bet.come.eight) {
         if(point) {
           if(call === 8) {
-            val = Craps.bet.come.eight;
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Craps.bet.come.eight);
           }
           if(call === 7) {
-            losses += Craps.bet.come.eight;
+            Craps.lostBet(Craps.bet.come.eight);
             Craps.bet.come.eight = 0;
           }
         }
@@ -512,12 +477,10 @@ var Craps = {};
       if(Craps.bet.come.nine) {
         if(point) {
           if(call === 9) {
-            val = Craps.bet.come.nine;
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Craps.bet.come.nine);
           }
           if(call === 7) {
-            losses += Craps.bet.come.nine;
+            Craps.lostBet(Craps.bet.come.nine);
             Craps.bet.come.nine = 0;
           }
         }
@@ -525,12 +488,10 @@ var Craps = {};
       if(Craps.bet.come.ten) {
         if(point) {
           if(call === 10) {
-            val = Craps.bet.come.ten;
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Craps.bet.come.ten);
           }
           if(call === 7) {
-            losses += Craps.bet.come.ten;
+            Craps.lostBet(Craps.bet.come.ten);
             Craps.bet.come.ten = 0;
           }
         }
@@ -540,12 +501,10 @@ var Craps = {};
       if(Craps.bet.odds.four && Craps.call === 4) {
         if(point) {
           if(call === 4) {
-            val = Math.floor(Craps.bet.odds.four * (2/1));
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Math.floor(Craps.bet.odds.four * (2/1)));
           }
           if(call === 7) {
-            losses += Craps.bet.odds.four;
+            Craps.lostBet(Craps.bet.odds.four);
             Craps.bet.odds.four = 0;
           }
         }
@@ -553,12 +512,10 @@ var Craps = {};
       if(Craps.bet.odds.five) {
         if(point) {
           if(call === 5) {
-            val = Math.floor(Craps.bet.odds.five * (3/2));
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Math.floor(Craps.bet.odds.five * (3/2)));
           }
           if(call === 7) {
-            losses += Craps.bet.odds.five;
+            Craps.lostBet(Craps.bet.odds.five);
             Craps.bet.odds.five = 0;
           }
         }
@@ -566,12 +523,10 @@ var Craps = {};
       if(Craps.bet.odds.six) {
         if(point) {
           if(call === 6) {
-            val = Math.floor(Craps.bet.odds.six * (6/5));
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Math.floor(Craps.bet.odds.six * (6/5)));
           }
           if(call === 7) {
-            losses += Craps.bet.odds.six;
+            Craps.lostBet(Craps.bet.odds.six);
             Craps.bet.odds.six = 0;
           }
         }
@@ -579,12 +534,10 @@ var Craps = {};
       if(Craps.bet.odds.eight) {
         if(point) {
           if(call === 8) {
-            val = Math.floor(Craps.bet.odds.eight * (6/5));
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Math.floor(Craps.bet.odds.eight * (6/5)));
           }
           if(call === 7) {
-            losses += Craps.bet.odds.eight;
+            Craps.lostBet(Craps.bet.odds.eight);
             Craps.bet.odds.eight = 0;
           }
         }
@@ -592,12 +545,10 @@ var Craps = {};
       if(Craps.bet.odds.nine) {
         if(point) {
           if(call === 9) {
-            val = Math.floor(Craps.bet.odds.nine * (3/2));
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Math.floor(Craps.bet.odds.nine * (3/2)));
           }
           if(call === 7) {
-            losses += Craps.bet.odds.nine;
+            Craps.lostBet(Craps.bet.odds.nine);
             Craps.bet.odds.nine = 0;
           }
         }
@@ -605,12 +556,10 @@ var Craps = {};
       if(Craps.bet.odds.ten) {
         if(point) {
           if(call === 10) {
-            val = Math.floor(Craps.bet.odds.ten * (2/1));
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Math.floor(Craps.bet.odds.ten * (2/1)));
           }
           if(call === 7) {
-            losses += Craps.bet.odds.ten;
+            Craps.lostBet(Craps.bet.odds.ten);
             Craps.bet.odds.ten = 0;
           }
         }
@@ -620,22 +569,18 @@ var Craps = {};
       if(Craps.bet.passLine) {
         if(point) {
           if(call === point) {
-            val = Craps.bet.passLine;
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Craps.bet.passLine);
           }
           if(call === 7) {
-            losses += Craps.bet.passLine;
+            Craps.lostBet(Craps.bet.passLine);
             Craps.bet.passLine = 0;
           }
         } else {
           if(call === 7 || call === 11) {
-            val = Craps.bet.passLine;
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Craps.bet.passLine);
           }
           if(call === 2 || call === 3 || call === 12) {
-            losses += Craps.bet.passLine;
+            Craps.lostBet(Craps.bet.passLine);
             Craps.bet.passLine = 0;
           }
         }
@@ -646,38 +591,26 @@ var Craps = {};
         if(point) {
           if(call === point) {
             if(call === 4) {
-              val = Math.floor(Craps.bet.passLineOdds * (9/5));
-              winnings += val;
-              Craps.purse.amount += val;
+              Craps.wonBet(Math.floor(Craps.bet.passLineOdds * (9/5)));
             }
             if(call === 5) {
-              val = Math.floor(Craps.bet.passLineOdds * (7/5));
-              winnings += val;
-              Craps.purse.amount += val;
+              Craps.wonBet(Math.floor(Craps.bet.passLineOdds * (7/5)));
             }
             if(call === 6) {
-              val = Math.floor(Craps.bet.passLineOdds * (7/6));
-              winnings += val;
-              Craps.purse.amount += val;
+              Craps.wonBet(Math.floor(Craps.bet.passLineOdds * (7/6)));
             }
             if(call === 8) {
-              val = Math.floor(Craps.bet.passLineOdds * (7/6));
-              winnings += val;
-              Craps.purse.amount += val;
+              Craps.wonBet(Math.floor(Craps.bet.passLineOdds * (7/6)));
             }
             if(call === 9) {
-              val = Math.floor(Craps.bet.passLineOdds * (7/5));
-              winnings += val;
-              Craps.purse.amount += val;
+              Craps.wonBet(Math.floor(Craps.bet.passLineOdds * (7/5)));
             }
             if(call === 10) {
-              val = Math.floor(Craps.bet.passLineOdds * (9/5));
-              winnings += val;
-              Craps.purse.amount += val;
+              Craps.wonBet(Math.floor(Craps.bet.passLineOdds * (9/5)));
             }
           }
           if(call === 7) {
-            losses += Craps.bet.passLineOdds;
+            Craps.lostBet(Craps.bet.passLineOdds);
             Craps.bet.passLineOdds = 0;
           }
         } else {
@@ -689,22 +622,18 @@ var Craps = {};
       if(Craps.bet.dontPass) {
         if(point) {
           if(call === 7) {
-            val = Craps.bet.dontPass;
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Craps.bet.dontPass);
           }
           if(call === point) {
-            losses += Craps.bet.dontPass;
+            Craps.lostBet(Craps.bet.dontPass);
             Craps.bet.dontPass = 0;
           }
         } else {
           if(call === 2 || call === 3) { // 12 pushes
-            val = Craps.bet.dontPass;
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Craps.bet.dontPass);
           }
           if(call === 7 || call === 11) {
-            losses += Craps.bet.dontPass;
+            Craps.lostBet(Craps.bet.dontPass);
             Craps.bet.dontPass = 0;
           }
         }
@@ -715,38 +644,26 @@ var Craps = {};
         if(point) {
           if(call === 7) {
             if(point === 4) {
-              val = Math.floor(Craps.bet.dontPassOdds * (1/2));
-              winnings += val;
-              Craps.purse.amount += val;
+              Craps.wonBet(Math.floor(Craps.bet.dontPassOdds * (1/2)));
             }
             if(point === 5) {
-              val = Math.floor(Craps.bet.dontPassOdds * (2/3));
-              winnings += val;
-              Craps.purse.amount += val;
+              Craps.wonBet(Math.floor(Craps.bet.dontPassOdds * (2/3)));
             }
             if(point === 6) {
-              val = Math.floor(Craps.bet.dontPassOdds * (5/6));
-              winnings += val;
-              Craps.purse.amount += val;
+              Craps.wonBet(Math.floor(Craps.bet.dontPassOdds * (5/6)));
             }
             if(point === 8) {
-              val = Math.floor(Craps.bet.dontPassOdds * (5/6));
-              winnings += val;
-              Craps.purse.amount += val;
+              Craps.wonBet(Math.floor(Craps.bet.dontPassOdds * (5/6)));
             }
             if(point === 9) {
-              val = Math.floor(Craps.bet.dontPassOdds * (2/3));
-              winnings += val;
-              Craps.purse.amount += val;
+              Craps.wonBet(Math.floor(Craps.bet.dontPassOdds * (2/3)));
             }
             if(point === 10) {
-              val = Math.floor(Craps.bet.dontPassOdds * (1/2));
-              winnings += val;
-              Craps.purse.amount += val;
+              Craps.wonBet(Math.floor(Craps.bet.dontPassOdds * (1/2)));
             }
           }
           if(call === point) {
-            losses += Craps.bet.dontPassOdds;
+            Craps.lostBet(Craps.bet.dontPassOdds);
             Craps.bet.dontPassOdds = 0;
           }
         } else {
@@ -757,35 +674,21 @@ var Craps = {};
       // CALCULATE FIELD BETS
       if(Craps.bet.field) {
         if(call === 2) {
-          val = Craps.bet.field * 2;
-          winnings += val;
-          Craps.purse.amount += val;
+          Craps.wonBet(Craps.bet.field * 2);
         } else if(call === 3) {
-          val = Craps.bet.field;
-          winnings += val;
-          Craps.purse.amount += val;
+          Craps.wonBet(Craps.bet.field);
         } else if(call === 4) {
-          val = Craps.bet.field;
-          winnings += val;
-          Craps.purse.amount += val;
+          Craps.wonBet(Craps.bet.field);
         } else if(call === 9) {
-          val = Craps.bet.field;
-          winnings += val;
-          Craps.purse.amount += val;
+          Craps.wonBet(Craps.bet.field);
         } else if(call === 10) {
-          val = Craps.bet.field;
-          winnings += val;
-          Craps.purse.amount += val;
+          Craps.wonBet(Craps.bet.field);
         } else if(call === 11) {
-          val = Craps.bet.field;
-          winnings += val;
-          Craps.purse.amount += val;
+          Craps.wonBet(Craps.bet.field);
         } else if(call === 12) {
-          val = Craps.bet.field * 2;
-          winnings += val;
-          Craps.purse.amount += val;
+          Craps.wonBet(Craps.bet.field * 2);
         } else {
-          losses += Craps.bet.field;
+          Craps.lostBet(Craps.bet.field);
           Craps.bet.field = 0;
         }
       }
@@ -794,12 +697,10 @@ var Craps = {};
       if(Craps.bet.newDontCome) {
         if(point) {
           if(call === 2 || call === 3) { // 12 pushes
-            val = Craps.bet.newDontCome;
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Craps.bet.newDontCome);
           }
           if(call === 7 || call === 11) {
-            losses += Craps.bet.newDontCome;
+            Craps.lostBet(Craps.bet.newDontCome);
             Craps.bet.newDontCome = 0;
           }
           if(call === 4) { // moves
@@ -835,12 +736,10 @@ var Craps = {};
       if(Craps.bet.dontCome.four) {
         if(point) {
           if(call === 7) {
-            val = Craps.bet.dontCome.four;
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Craps.bet.dontCome.four);
           }
           if(call === 4) {
-            losses += Craps.bet.dontCome.four;
+            Craps.lostBet(Craps.bet.dontCome.four);
             Craps.bet.dontCome.four = 0;
           }
         } else {
@@ -850,12 +749,10 @@ var Craps = {};
       if(Craps.bet.dontCome.five) {
         if(point) {
           if(call === 7) {
-            val = Craps.bet.dontCome.five;
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Craps.bet.dontCome.five);
           }
           if(call === 5) {
-            losses += Craps.bet.dontCome.five;
+            Craps.lostBet(Craps.bet.dontCome.five);
             Craps.bet.dontCome.five = 0;
           }
         } else {
@@ -865,12 +762,10 @@ var Craps = {};
       if(Craps.bet.dontCome.six) {
         if(point) {
           if(call === 7) {
-            val = Craps.bet.dontCome.six;
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Craps.bet.dontCome.six);
           }
           if(call === 6) {
-            losses += Craps.bet.dontCome.six;
+            Craps.lostBet(Craps.bet.dontCome.six);
             Craps.bet.dontCome.six = 0;
           }
         } else {
@@ -880,12 +775,10 @@ var Craps = {};
       if(Craps.bet.dontCome.eight) {
         if(point) {
           if(call === 7) {
-            val = Craps.bet.dontCome.eight;
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Craps.bet.dontCome.eight);
           }
           if(call === 8) {
-            losses += Craps.bet.dontCome.eight;
+            Craps.lostBet(Craps.bet.dontCome.eight);
             Craps.bet.dontCome.eight = 0;
           }
         } else {
@@ -895,12 +788,10 @@ var Craps = {};
       if(Craps.bet.dontCome.nine) {
         if(point) {
           if(call === 7) {
-            val = Craps.bet.dontCome.nine;
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Craps.bet.dontCome.nine);
           }
           if(call === 9) {
-            losses += Craps.bet.dontCome.nine;
+            Craps.lostBet(Craps.bet.dontCome.nine);
             Craps.bet.dontCome.nine = 0;
           }
         } else {
@@ -910,12 +801,10 @@ var Craps = {};
       if(Craps.bet.dontCome.ten) {
         if(point) {
           if(call === 7) {
-            val = Craps.bet.dontCome.ten;
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Craps.bet.dontCome.ten);
           }
           if(call === 10) {
-            losses += Craps.bet.dontCome.ten;
+            Craps.lostBet(Craps.bet.dontCome.ten);
             Craps.bet.dontCome.ten = 0;
           }
         } else {
@@ -926,11 +815,9 @@ var Craps = {};
       // CALCULATE YO 11
       if(Craps.bet.yo) {
         if(call === 11) {
-          val = Math.floor(Craps.bet.yo * (15/1));
-          winnings += val;
-          Craps.purse.amount += val;
+          Craps.wonBet(Math.floor(Craps.bet.yo * (15/1)));
         } else {
-          losses += Craps.bet.yo;
+          Craps.lostBet(Craps.bet.yo);
           Craps.bet.yo = 0;
         }
       }
@@ -938,11 +825,9 @@ var Craps = {};
       // CALCULATE CRAPS
       if(Craps.bet.craps) {
         if(call === 2 || call === 3 || call === 12) {
-          val = Math.floor(Craps.bet.craps *(7/1));
-          winnings += val;
-          Craps.purse.amount += val;
+          Craps.wonBet(Math.floor(Craps.bet.craps *(7/1)));
         } else {
-          losses += Craps.bet.craps;
+          Craps.lostBet(Craps.bet.craps);
           Craps.bet.craps = 0;
         }
       }
@@ -951,64 +836,56 @@ var Craps = {};
       if(Craps.bet.hard.four) {
         if(call === 4) {
           if(Craps.dice[0] === 2 && Craps.dice[1] === 2) {
-            val = Math.floor(Craps.bet.hard.four * (7/1));
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Math.floor(Craps.bet.hard.four * (7/1)));
           } else {
-            losses += Craps.bet.hard.four;
+            Craps.lostBet(Craps.bet.hard.four);
             Craps.bet.hard.four = 0;
           }
         }
         if(call === 7) {
-          losses += Craps.bet.hard.four;
+          Craps.lostBet(Craps.bet.hard.four);
           Craps.bet.hard.four = 0;
         }
       }
       if(Craps.bet.hard.six) {
         if(call === 6) {
           if(Craps.dice[0] === 3 && Craps.dice[1] === 3) {
-            val = Math.floor(Craps.bet.hard.six * (9/1));
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Math.floor(Craps.bet.hard.six * (9/1)));
           } else {
-            losses += Craps.bet.hard.six;
+            Craps.lostBet(Craps.bet.hard.six);
             Craps.bet.hard.six = 0;
           }
         }
         if(call === 7) {
-          losses += Craps.bet.hard.six;
+          Craps.lostBet(Craps.bet.hard.six);
           Craps.bet.hard.six = 0;
         }
       }
       if(Craps.bet.hard.eight) {
         if(call === 8) {
           if(Craps.dice[0] === 4 && Craps.dice[1] === 4) {
-            val = Math.floor(Craps.bet.hard.eight * (9/1));
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Math.floor(Craps.bet.hard.eight * (9/1)));
           } else {
-            losses += Craps.bet.hard.eight;
+            Craps.lostBet(Craps.bet.hard.eight);
             Craps.bet.hard.eight = 0;
           }
         }
         if(call === 7) {
-          losses += Craps.bet.hard.eight;
+          Craps.lostBet(Craps.bet.hard.eight);
           Craps.bet.hard.eight = 0;
         }
       }
       if(Craps.bet.hard.ten) {
         if(call === 10) {
           if(Craps.dice[0] === 5 && Craps.dice[1] === 5) {
-            val = Math.floor(Craps.bet.hard.ten * (7/1));
-            winnings += val;
-            Craps.purse.amount += val;
+            Craps.wonBet(Math.floor(Craps.bet.hard.ten * (7/1)));
           } else {
-            losses += Craps.bet.hard.ten;
+            Craps.lostBet(Craps.bet.hard.ten);
             Craps.bet.hard.ten = 0;
           }
         }
         if(call === 7) {
-          losses += Craps.bet.hard.ten;
+          Craps.lostBet(Craps.bet.hard.ten);
           Craps.bet.hard.ten = 0;
         }
       }
@@ -1016,31 +893,23 @@ var Craps = {};
       // CALCULATE BIG BETS
       if(Craps.bet.big.six) {
         if(call === 6) {
-          val = Craps.bet.big.six;
-          winnings += val;
-          Craps.purse.amount += val;
+          Craps.wonBet(Craps.bet.big.six);
         }
         if(call === 7) {
-          losses += Craps.bet.big.six;
+          Craps.lostBet(Craps.bet.big.six);
           Craps.bet.big.six = 0;
         }
       }
       if(Craps.bet.big.eight) {
         if(call === 8) {
-          val = Craps.bet.big.eight;
-          winnings += val;
-          Craps.purse.amount += val;
+          Craps.wonBet(Craps.bet.big.eight);
         }
         if(call === 7) {
-          losses += Craps.bet.big.eight;
+          Craps.lostBet(Craps.bet.big.eight);
           Craps.bet.big.eight = 0;
         }
       }
 
-      // Add winnings to the purse
-      Craps.winnings = winnings;
-      Craps.losses = losses;
-      //Craps.purse.amount += Craps.winnings; not sure what I wan't to do here yet
 
     },
 
