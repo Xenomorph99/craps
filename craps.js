@@ -32,7 +32,6 @@ var Craps = {};
       big: {six: 0, eight: 0}
     },
 
-
     init: function() {
 
       $('#run-button').click(Craps.run);
@@ -63,9 +62,10 @@ var Craps = {};
       Craps.dice[1] = 0;
       Craps.purse.start = purse > 0 ? purse : 0;
       Craps.purse.amount = purse > 0 ? purse : 0;
+      Craps.point = 0;
 
       // Clear the log table
-      $('#log-table').empty().append('<tr><th>#</th><th>Dice</th><th>Purse</th><th>Winnings</th></tr>');
+      $('#log-table').empty().append('<tr><th>#</th><th>Dice</th><th>Point</th><th>Purse</th><th>Winnings</th></tr>');
 
     },
 
@@ -108,11 +108,19 @@ var Craps = {};
       // Add dice together
       Craps.call = Craps.dice[0] + Craps.dice[1];
 
+      // Turn the point on or off
+      if(Craps.call === 7) {
+        Craps.point = 0;
+      } else if(!Craps.point && (Craps.call === 4 || Craps.call === 5 || Craps.call === 6 || Craps.call === 8 || Craps.call === 9 || Craps.call === 10)) {
+        Craps.point = Craps.call;
+      };
+
     },
 
     log: function(i) {
 
-      var logEntry = '<tr><td>' + i + '</td><td>(' + Craps.dice[0] + '+' + Craps.dice[1] + ') = ' + Craps.call + '</td><td>' + Craps.purse.amount + '</td><td>' + Craps.winnings + '</td></tr>';
+      var point = (Craps.point) ? 'ON (' + Craps.point + ')' : "OFF";
+      var logEntry = '<tr><td>' + i + '</td><td>(' + Craps.dice[0] + '+' + Craps.dice[1] + ') = ' + Craps.call + '</td><td>' + point + '</td><td>' + Craps.purse.amount + '</td><td>' + Craps.winnings + '</td></tr>';
 
       $('#log-table').append(logEntry);
 
@@ -124,22 +132,34 @@ var Craps = {};
 
       // Place bets
       if(Craps.bet.place.four && Craps.call === 4) {
-        Craps.winnings = Craps.winnings + Math.floor(Craps.bet.place.four * (9/5));
+        if(Craps.point) {
+          Craps.winnings = Craps.winnings + Math.floor(Craps.bet.place.four * (9/5));
+        }
       }
       if(Craps.bet.place.five && Craps.call === 5) {
-        Craps.winnings = Craps.winnings + Math.floor(Craps.bet.place.five * (7/5));
+        if(Craps.point) {
+          Craps.winnings = Craps.winnings + Math.floor(Craps.bet.place.five * (7/5));
+        }
       }
       if(Craps.bet.place.six && Craps.call === 6) {
-        Craps.winnings = Craps.winnings + Math.floor(Craps.bet.place.six * (7/6));
+        if(Craps.point) {
+          Craps.winnings = Craps.winnings + Math.floor(Craps.bet.place.six * (7/6));
+        }
       }
       if(Craps.bet.place.eight && Craps.call === 8) {
-        Craps.winnings = Craps.winnings + Math.floor(Craps.bet.place.eight * (7/6));
+        if(Craps.point) {
+          Craps.winnings = Craps.winnings + Math.floor(Craps.bet.place.eight * (7/6));
+        }
       }
       if(Craps.bet.place.nine && Craps.call === 9) {
-        Craps.winnings = Craps.winnings + Math.floor(Craps.bet.place.nine * (7/5));
+        if(Craps.point) {
+          Craps.winnings = Craps.winnings + Math.floor(Craps.bet.place.nine * (7/5));
+        }
       }
       if(Craps.bet.place.ten && Craps.call === 10) {
-        Craps.winnings = Craps.winnings + Math.floor(Craps.bet.place.ten * (9/5));
+        if(Craps.point) {
+          Craps.winnings = Craps.winnings + Math.floor(Craps.bet.place.ten * (9/5));
+        }
       }
 
       // Buy bets
