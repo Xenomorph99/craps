@@ -22,6 +22,25 @@
    <h1>CRAPS</h1>
    <h2>Strategy Calculator 1.0</h2>
 
+   <section id="controls">
+     <form>
+       <label for="purse">Money $</label>
+       <input id="purse" type="number" placeholder="0" value="500">
+       <label for="rolls"># of rolls</label>
+       <input id="rolls" type="number" placeholder="0" value="5">
+       <button id="roll-button" type="button">Roll!</button>
+     </form>
+   </section>
+
+   <section id="results">
+     <h3>The results</h3>
+     <p>You started with $<span id="purse-start">0</span> and ended with $<span id="purse-end">0</span>. That's a difference of $<span id="purse-diff">0</span>. Better luck next time!</p>
+   </section>
+
+   <section id="log">
+     <table id="log-table"></table>
+   </section>
+
   <script type="text/javascript" src="craps.js"></script>
 </body>
 </html>
