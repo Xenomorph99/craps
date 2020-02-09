@@ -13,6 +13,7 @@ var Craps = {};
       start: 0, // the dollar amount entered at the beginning on the simulation
       amount: 0 // the running total of money not on the table
     },
+    table: 0, // the total amount of money on the table
     winnings: 0, // the total amount of money won on a roll
     losses: 0, // the total amount of money lost on a roll
     bet: {
@@ -92,6 +93,7 @@ var Craps = {};
     },
 
     run: function() {
+
       // Get everything reset and ready for the roll
       Craps.reset();
 
@@ -113,6 +115,7 @@ var Craps = {};
       Craps.rolls = rolls > 0 ? rolls : 0;
       Craps.dice[0] = 0;
       Craps.dice[1] = 0;
+      Craps.table = 0;
       Craps.purse.start = purse > 0 ? purse : 0;
       Craps.purse.amount = purse > 0 ? purse : 0;
       Craps.point = 0;
@@ -121,12 +124,12 @@ var Craps = {};
       // Setup the log table columns
       var string = '<tr>';
       string += '<th>#</th>';
-      string += '<th>Dice</th>';
-      string += '<th>Point</th>';
       string += '<th>Run</th>';
+      string += '<th>Point</th>';
+      string += '<th>Dice</th>';
+      string += '<th>Win</th>';
+      string += '<th>Loss</th>';
       string += '<th>Purse</th>';
-      string += '<th>Winnings</th>';
-      string += '<th>Losses</th>';
       string += '</tr>';
 
       // Clear the log table
@@ -191,12 +194,12 @@ var Craps = {};
 
       var logEntry = '<tr>';
       logEntry += Craps.tableCell(i); // #
-      logEntry += Craps.tableCell(dice); // Dice
-      logEntry += Craps.tableCell(point); // Point
       logEntry += Craps.tableCell(Craps.count); // Run
-      logEntry += Craps.tableCell(Craps.purse.amount); // Purse
+      logEntry += Craps.tableCell(point); // Point
+      logEntry += Craps.tableCell(dice); // Dice
       logEntry += Craps.tableCell(Craps.winnings); // Winnings
       logEntry += Craps.tableCell(Craps.losses); // Losses
+      logEntry += Craps.tableCell(Craps.purse.amount); // Purse
       logEntry += '</tr>';
 
       $('#log-table').append(logEntry);
@@ -753,7 +756,7 @@ var Craps = {};
             }
             if(call === 7) {
               Craps.lostBet(Craps.bet.passLineOdds.amt);
-              Craps.bet.passLineOdd.amt = 0;
+              Craps.bet.passLineOdds.amt = 0;
             }
           } else {
             // No payout if point is off?
@@ -845,40 +848,36 @@ var Craps = {};
       // CALCULATE NEW DON'T COME BETS
       if(Craps.bet.newDontCome.amt) {
         if(Craps.bet.newDontCome.working) {
-          if(point) {
-            if(call === 2 || call === 3) { // 12 pushes
-              Craps.wonBet(Craps.bet.newDontCome.amt);
-            }
-            if(call === 7 || call === 11) {
-              Craps.lostBet(Craps.bet.newDontCome.amt);
-              Craps.bet.newDontCome.amt = 0;
-            }
-            if(call === 4) { // moves
-              Craps.bet.dontCome.four = Craps.bet.newDontCome.amt;
-              Craps.bet.newDontCome.amt = 0;
-            }
-            if(call === 5) { // moves
-              Craps.bet.dontCome.five = Craps.bet.newDontCome.amt;
-              Craps.bet.newDontCome.amt = 0;
-            }
-            if(call === 6) { // moves
-              Craps.bet.dontCome.six = Craps.bet.newDontCome.amt;
-              Craps.bet.newDontCome.amt = 0;
-            }
-            if(call === 8) { // moves
-              Craps.bet.dontCome.eight = Craps.bet.newDontCome.amt;
-              Craps.bet.newDontCome.amt = 0;
-            }
-            if(call === 9) { // moves
-              Craps.bet.dontCome.nine = Craps.bet.newDontCome.amt;
-              Craps.bet.newDontCome.amt = 0;
-            }
-            if(call === 10) { // moves
-              Craps.bet.dontCome.ten = Craps.bet.newDontCome.amt;
-              Craps.bet.newDontCome.amt = 0;
-            }
-          } else {
-            // what happens here?
+          if(call === 2 || call === 3) { // 12 pushes
+            Craps.wonBet(Craps.bet.newDontCome.amt);
+          }
+          if(call === 7 || call === 11) {
+            Craps.lostBet(Craps.bet.newDontCome.amt);
+            Craps.bet.newDontCome.amt = 0;
+          }
+          if(call === 4) { // moves
+            Craps.bet.dontCome.four = Craps.bet.newDontCome.amt;
+            Craps.bet.newDontCome.amt = 0;
+          }
+          if(call === 5) { // moves
+            Craps.bet.dontCome.five = Craps.bet.newDontCome.amt;
+            Craps.bet.newDontCome.amt = 0;
+          }
+          if(call === 6) { // moves
+            Craps.bet.dontCome.six = Craps.bet.newDontCome.amt;
+            Craps.bet.newDontCome.amt = 0;
+          }
+          if(call === 8) { // moves
+            Craps.bet.dontCome.eight = Craps.bet.newDontCome.amt;
+            Craps.bet.newDontCome.amt = 0;
+          }
+          if(call === 9) { // moves
+            Craps.bet.dontCome.nine = Craps.bet.newDontCome.amt;
+            Craps.bet.newDontCome.amt = 0;
+          }
+          if(call === 10) { // moves
+            Craps.bet.dontCome.ten = Craps.bet.newDontCome.amt;
+            Craps.bet.newDontCome.amt = 0;
           }
         }
       }
@@ -886,91 +885,79 @@ var Craps = {};
       // CALCULATE DON'T COME BETS
       if(Craps.bet.dontCome.four.amt) {
         if(Craps.bet.dontCome.four.working) {
-          if(point) {
-            if(call === 7) {
-              Craps.wonBet(Craps.bet.dontCome.four.amt);
-            }
-            if(call === 4) {
-              Craps.lostBet(Craps.bet.dontCome.four.amt);
-              Craps.bet.dontCome.four.amt = 0;
-            }
-          } else {
-            // what happens here?
+          if(call === 7) {
+            Craps.wonBet(Craps.bet.dontCome.four.amt);
+            Craps.purse.amount += Craps.bet.dontCome.four.amt; // take down
+            Craps.bet.dontCome.four.amt = 0;
+          }
+          if(call === 4) {
+            Craps.lostBet(Craps.bet.dontCome.four.amt);
+            Craps.bet.dontCome.four.amt = 0;
           }
         }
       }
       if(Craps.bet.dontCome.five.amt) {
         if(Craps.bet.dontCome.five.working) {
-          if(point) {
-            if(call === 7) {
-              Craps.wonBet(Craps.bet.dontCome.five.amt);
-            }
-            if(call === 5) {
-              Craps.lostBet(Craps.bet.dontCome.five.amt);
-              Craps.bet.dontCome.five.amt = 0;
-            }
-          } else {
-            // what happens here?
+          if(call === 7) {
+            Craps.wonBet(Craps.bet.dontCome.five.amt);
+            Craps.purse.amount += Craps.bet.dontCome.five.amt; // take down
+            Craps.bet.dontCome.five.amt = 0;
+          }
+          if(call === 5) {
+            Craps.lostBet(Craps.bet.dontCome.five.amt);
+            Craps.bet.dontCome.five.amt = 0;
           }
         }
       }
       if(Craps.bet.dontCome.six.amt) {
         if(Craps.bet.dontCome.six.working) {
-          if(point) {
-            if(call === 7) {
-              Craps.wonBet(Craps.bet.dontCome.six.amt);
-            }
-            if(call === 6) {
-              Craps.lostBet(Craps.bet.dontCome.six.amt);
-              Craps.bet.dontCome.six.amt = 0;
-            }
-          } else {
-            // what happens here?
+          if(call === 7) {
+            Craps.wonBet(Craps.bet.dontCome.six.amt);
+            Craps.purse.amount += Craps.bet.dontCome.six.amt; // take down
+            Craps.bet.dontCome.six.amt = 0;
+          }
+          if(call === 6) {
+            Craps.lostBet(Craps.bet.dontCome.six.amt);
+            Craps.bet.dontCome.six.amt = 0;
           }
         }
       }
       if(Craps.bet.dontCome.eight.amt) {
         if(Craps.bet.dontCome.eight.working) {
-          if(point) {
-            if(call === 7) {
-              Craps.wonBet(Craps.bet.dontCome.eight.amt);
-            }
-            if(call === 8) {
-              Craps.lostBet(Craps.bet.dontCome.eight.amt);
-              Craps.bet.dontCome.eight.amt = 0;
-            }
-          } else {
-            // what happens here?
+          if(call === 7) {
+            Craps.wonBet(Craps.bet.dontCome.eight.amt);
+            Craps.purse.amount += Craps.bet.dontCome.eight.amt; // take down
+            Craps.bet.dontCome.eight.amt = 0;
+          }
+          if(call === 8) {
+            Craps.lostBet(Craps.bet.dontCome.eight.amt);
+            Craps.bet.dontCome.eight.amt = 0;
           }
         }
       }
       if(Craps.bet.dontCome.nine.amt) {
         if(Craps.bet.dontCome.nine.working) {
-          if(point) {
-            if(call === 7) {
-              Craps.wonBet(Craps.bet.dontCome.nine.amt);
-            }
-            if(call === 9) {
-              Craps.lostBet(Craps.bet.dontCome.nine.amt);
-              Craps.bet.dontCome.nine.amt = 0;
-            }
-          } else {
-            // what happens here?
+          if(call === 7) {
+            Craps.wonBet(Craps.bet.dontCome.nine.amt);
+            Craps.purse.amount += Craps.bet.dontCome.nine.amt; // take down
+            Craps.bet.dontCome.nine.amt = 0;
+          }
+          if(call === 9) {
+            Craps.lostBet(Craps.bet.dontCome.nine.amt);
+            Craps.bet.dontCome.nine.amt = 0;
           }
         }
       }
       if(Craps.bet.dontCome.ten.amt) {
         if(Craps.bet.dontCome.ten.working) {
-          if(point) {
-            if(call === 7) {
-              Craps.wonBet(Craps.bet.dontCome.ten.amt);
-            }
-            if(call === 10) {
-              Craps.lostBet(Craps.bet.dontCome.ten.amt);
-              Craps.bet.dontCome.ten.amt = 0;
-            }
-          } else {
-            // what happens here?
+          if(call === 7) {
+            Craps.wonBet(Craps.bet.dontCome.ten.amt);
+            Craps.purse.amount += Craps.bet.dontCome.ten.amt; // take down
+            Craps.bet.dontCome.ten.amt = 0;
+          }
+          if(call === 10) {
+            Craps.lostBet(Craps.bet.dontCome.ten.amt);
+            Craps.bet.dontCome.ten.amt = 0;
           }
         }
       }
@@ -1095,7 +1082,8 @@ var Craps = {};
     movePuck: function() {
 
       if(Craps.point) { // if the point is established (ON)
-        if(Craps.call === 7) { // seven out
+
+        if(Craps.call === 7 || Craps.call === Craps.point) { // seven out or hit the point
 
           Craps.point = 0;
           Craps.count = 0;
@@ -1152,10 +1140,14 @@ var Craps = {};
           Craps.bet.hard.eight.working = 0;
           Craps.bet.hard.ten.working = 0;
 
-        } else {
+        } else if(Craps.call !== 2 && Craps.call !== 3 && Craps.call !== 11) {
+
           Craps.count += 1 // count the rolls between 7's
+
         }
+
       } else { // if the point is not estableshed (OFF)
+
         if(Craps.call === 4 || Craps.call === 5 || Craps.call === 6 || Craps.call === 8 || Craps.call === 9 || Craps.call === 10) { // establish point
 
           Craps.point = Craps.call;
@@ -1214,13 +1206,50 @@ var Craps = {};
           Craps.bet.hard.ten.working = 1;
 
         }
+
       }
 
     },
 
     placeBets: function() {
 
-      console.log("Placing bets");
+      if(!Craps.count) { // come out roll
+
+        // if there isn't one, add a passline bet
+        if(!Craps.bet.passLine.amt) {
+          Craps.purse.amount -= 10;
+          Craps.bet.passLine.amt = 10;
+        }
+
+        // if there isn't one, add a don't pass bet
+        if(!Craps.bet.dontPass.amt) {
+          Craps.purse.amount -= 10;
+          Craps.bet.dontPass.amt = 10;
+        }
+
+      }
+
+      if(Craps.count === 1) {
+
+        // if there aren't any, place odds on passline bet
+        if(!Craps.bet.passLineOdds.amt) {
+          Craps.purse.amount -= 30;
+          Craps.bet.passLineOdds.amt = 30;
+        }
+
+        // if there's no DC on the table
+        if(!Craps.bet.newDontCome.amt && !Craps.bet.dontCome.four.amt && !Craps.bet.dontCome.five.amt && !Craps.bet.dontCome.six.amt && !Craps.bet.dontCome.eight.amt && !Craps.bet.dontCome.nine.amt && !Craps.bet.dontCome.ten.amt) {
+          Craps.purse.amount -= 75;
+          Craps.bet.newDontCome.amt = 75;
+        }
+
+        // if there's no DC on the table, add a yo 11 bet to hedge the new DC
+        if(!Craps.bet.yo.amt && !Craps.bet.dontCome.four.amt && !Craps.bet.dontCome.five.amt && !Craps.bet.dontCome.six.amt && !Craps.bet.dontCome.eight.amt && !Craps.bet.dontCome.nine.amt && !Craps.bet.dontCome.ten.amt) {
+          Craps.purse.amount -= 5;
+          Craps.bet.yo.amt = 5;
+        }
+
+      }
 
     }
 
