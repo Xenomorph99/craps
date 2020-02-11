@@ -1,0 +1,1129 @@
+var Calc = {};
+
+(function($) {
+
+  Calc = {
+
+    init: function() {
+
+      // Do nothing
+
+    },
+
+    run: function(array) { // Array of function names
+
+      var all = [
+        'passline',
+        'passlineodds',
+        'dontpass',
+        'dontpassodds',
+        'newcome',
+        'newdontcome', // add the rest of the functions
+      ];
+      var q = (!array) ? all : array; // Run all calculations unless otherwise specified
+      var name = null;
+
+      // Run each calculation
+      for (var i = 0; i < q.length; i++) {
+        name = q[i];
+        Calc[name]();
+      }
+
+    },
+
+    passline: function() {
+
+      // if(Craps.bet.passLine.amt) {
+      //   if(Craps.bet.passLine.working) {
+      //     if(point) {
+      //       if(call === point) {
+      //         Craps.wonBet(Craps.bet.passLine.amt);
+      //       }
+      //       if(call === 7) {
+      //         Craps.lostBet(Craps.bet.passLine.amt);
+      //         Craps.bet.passLine.amt = 0;
+      //       }
+      //     } else {
+      //       if(call === 7 || call === 11) {
+      //         Craps.wonBet(Craps.bet.passLine.amt);
+      //       }
+      //       if(call === 2 || call === 3 || call === 12) {
+      //         Craps.lostBet(Craps.bet.passLine.amt);
+      //         Craps.bet.passLine.amt = 0;
+      //       }
+      //     }
+      //   }
+      // }
+
+    },
+
+    passlineodds: function() {
+
+      // if(Craps.bet.passLineOdds.amt) {
+      //   if(Craps.bet.passLineOdds.working) {
+      //     if(point) {
+      //       if(call === point) {
+      //         if(call === 4) {
+      //           Craps.wonBet(Math.floor(Craps.bet.passLineOdds.amt * (9/5)));
+      //         }
+      //         if(call === 5) {
+      //           Craps.wonBet(Math.floor(Craps.bet.passLineOdds.amt * (7/5)));
+      //         }
+      //         if(call === 6) {
+      //           Craps.wonBet(Math.floor(Craps.bet.passLineOdds.amt * (7/6)));
+      //         }
+      //         if(call === 8) {
+      //           Craps.wonBet(Math.floor(Craps.bet.passLineOdds.amt * (7/6)));
+      //         }
+      //         if(call === 9) {
+      //           Craps.wonBet(Math.floor(Craps.bet.passLineOdds.amt * (7/5)));
+      //         }
+      //         if(call === 10) {
+      //           Craps.wonBet(Math.floor(Craps.bet.passLineOdds.amt * (9/5)));
+      //         }
+      //       }
+      //       if(call === 7) {
+      //         Craps.lostBet(Craps.bet.passLineOdds.amt);
+      //         Craps.bet.passLineOdds.amt = 0;
+      //       }
+      //     } else {
+      //       // No payout if point is off?
+      //     }
+      //   }
+      // }
+
+    },
+
+    dontpass: function() {
+
+      // if(Craps.bet.dontPass.amt) {
+      //   if(Craps.bet.dontPass.working) {
+      //     if(point) {
+      //       if(call === 7) {
+      //         Craps.wonBet(Craps.bet.dontPass.amt);
+      //       }
+      //       if(call === point) {
+      //         Craps.lostBet(Craps.bet.dontPass.amt);
+      //         Craps.bet.dontPass.amt = 0;
+      //       }
+      //     } else {
+      //       if(call === 2 || call === 3) { // 12 pushes
+      //         Craps.wonBet(Craps.bet.dontPass.amt);
+      //       }
+      //       if(call === 7 || call === 11) {
+      //         Craps.lostBet(Craps.bet.dontPass.amt);
+      //         Craps.bet.dontPass.amt = 0;
+      //       }
+      //     }
+      //   }
+      // }
+
+    },
+
+    dontpassodds: function() {
+
+      // if(Craps.bet.dontPassOdds.amt) {
+      //   if(Craps.bet.dontPassOdds.working) {
+      //     if(point) {
+      //       if(call === 7) {
+      //         if(point === 4) {
+      //           Craps.wonBet(Math.floor(Craps.bet.dontPassOdds.amt * (1/2)));
+      //         }
+      //         if(point === 5) {
+      //           Craps.wonBet(Math.floor(Craps.bet.dontPassOdds.amt * (2/3)));
+      //         }
+      //         if(point === 6) {
+      //           Craps.wonBet(Math.floor(Craps.bet.dontPassOdds.amt * (5/6)));
+      //         }
+      //         if(point === 8) {
+      //           Craps.wonBet(Math.floor(Craps.bet.dontPassOdds.amt * (5/6)));
+      //         }
+      //         if(point === 9) {
+      //           Craps.wonBet(Math.floor(Craps.bet.dontPassOdds.amt * (2/3)));
+      //         }
+      //         if(point === 10) {
+      //           Craps.wonBet(Math.floor(Craps.bet.dontPassOdds.amt * (1/2)));
+      //         }
+      //       }
+      //       if(call === point) {
+      //         Craps.lostBet(Craps.bet.dontPassOdds.amt);
+      //         Craps.bet.dontPassOdds.amt = 0;
+      //       }
+      //     } else {
+      //       // What happens when there is no point?
+      //     }
+      //   }
+      // }
+
+    },
+
+    newcome: function() {
+
+      // if(Craps.bet.newCome.amt) {
+      //   if(Craps.bet.newCome.working) {
+      //     if(call === 7 || call === 11) {
+      //       Craps.wonBet(Craps.bet.newCome.amt);
+      //     }
+      //     if(call === 2 || call === 3 || call === 12) {
+      //       Craps.lostBet(Craps.bet.newCome.amt);
+      //       Craps.bet.newCome.amt = 0;
+      //     }
+      //     if(call === 4) { // moves
+      //       Craps.bet.come.four.amt = Craps.bet.newCome.amt;
+      //       Craps.bet.newCome.amt = 0;
+      //     }
+      //     if(call === 5) { // moves
+      //       Craps.bet.come.five.amt = Craps.bet.newCome.amt;
+      //       Craps.bet.newCome.amt = 0;
+      //     }
+      //     if(call === 6) { // moves
+      //       Craps.bet.come.six.amt = Craps.bet.newCome.amt;
+      //       Craps.bet.newCome.amt = 0;
+      //     }
+      //     if(call === 8) { // moves
+      //       Craps.bet.come.eight.amt = Craps.bet.newCome.amt;
+      //       Craps.bet.newCome.amt = 0;
+      //     }
+      //     if(call === 9) { // moves
+      //       Craps.bet.come.nine.amt = Craps.bet.newCome.amt;
+      //       Craps.bet.newCome.amt = 0;
+      //     }
+      //     if(call === 10) { // moves
+      //       Craps.bet.come.ten.amt = Craps.bet.newCome.amt;
+      //       Craps.bet.newCome.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    newdontcome: function() {
+
+      // if(Craps.bet.newDontCome.amt) {
+      //   if(Craps.bet.newDontCome.working) {
+      //     if(call === 2 || call === 3) { // 12 pushes
+      //       Craps.wonBet(Craps.bet.newDontCome.amt);
+      //     }
+      //     if(call === 7 || call === 11) {
+      //       Craps.lostBet(Craps.bet.newDontCome.amt);
+      //       Craps.bet.newDontCome.amt = 0;
+      //     }
+      //     if(call === 4) { // moves
+      //       Craps.bet.dontCome.four = Craps.bet.newDontCome.amt;
+      //       Craps.bet.newDontCome.amt = 0;
+      //     }
+      //     if(call === 5) { // moves
+      //       Craps.bet.dontCome.five = Craps.bet.newDontCome.amt;
+      //       Craps.bet.newDontCome.amt = 0;
+      //     }
+      //     if(call === 6) { // moves
+      //       Craps.bet.dontCome.six = Craps.bet.newDontCome.amt;
+      //       Craps.bet.newDontCome.amt = 0;
+      //     }
+      //     if(call === 8) { // moves
+      //       Craps.bet.dontCome.eight = Craps.bet.newDontCome.amt;
+      //       Craps.bet.newDontCome.amt = 0;
+      //     }
+      //     if(call === 9) { // moves
+      //       Craps.bet.dontCome.nine = Craps.bet.newDontCome.amt;
+      //       Craps.bet.newDontCome.amt = 0;
+      //     }
+      //     if(call === 10) { // moves
+      //       Craps.bet.dontCome.ten = Craps.bet.newDontCome.amt;
+      //       Craps.bet.newDontCome.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    place4: function() {
+
+      // if(Craps.bet.place.four.amt) {
+      //   if(Craps.bet.place.four.working) {
+      //     if(call === 4) {
+      //       Craps.wonBet(Math.floor(Craps.bet.place.four.amt * (9/5)));
+      //     }
+      //     if(call === 7) {
+      //       Craps.lostBet(Craps.bet.place.four.amt);
+      //       Craps.bet.place.four.amt = 0;
+      //     }
+      //   } else {
+      //     if(call === 4) { // take down
+      //       Craps.purse.amount += Craps.bet.place.four.amt;
+      //       Craps.bet.place.four.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    place5: function() {
+
+      // if(Craps.bet.place.five.amt) {
+      //   if(Craps.bet.place.five.working) {
+      //     if(call === 5) {
+      //       Craps.wonBet(Math.floor(Craps.bet.place.five.amt * (7/5)));
+      //     }
+      //     if(call === 7) {
+      //       Craps.lostBet(Craps.bet.place.five.amt);
+      //       Craps.bet.place.five.amt = 0;
+      //     }
+      //   } else {
+      //     if(call === 5) { // take down
+      //       Craps.purse.amount += Craps.bet.place.five.amt;
+      //       Craps.bet.place.five.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    place6: function() {
+
+      // if(Craps.bet.place.six.amt) {
+      //   if(Craps.bet.place.six.working) {
+      //     if(call === 6) {
+      //       Craps.wonBet(Math.floor(Craps.bet.place.six.amt * (7/6)));
+      //     }
+      //     if(call === 7) {
+      //       Craps.lostBet(Craps.bet.place.six.amt);
+      //       Craps.bet.place.six.amt = 0;
+      //     }
+      //   } else {
+      //     if(call === 6) { // take down
+      //       Craps.purse.amount += Craps.bet.place.six.amt;
+      //       Craps.bet.place.six.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    place8: function() {
+
+      // if(Craps.bet.place.eight.amt) {
+      //   if(Craps.bet.place.eight.working) {
+      //     if(call === 8) {
+      //       Craps.wonBet(Math.floor(Craps.bet.place.eight.amt * (7/6)));
+      //     }
+      //     if(call === 7) {
+      //       Craps.lostBet(Craps.bet.place.eight.amt);
+      //       Craps.bet.place.eight.amt = 0;
+      //     }
+      //   } else {
+      //     if(call === 8) { // take down
+      //       Craps.purse.amount += Craps.bet.place.eight.amt;
+      //       Craps.bet.place.eight.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    place9: function() {
+
+      // if(Craps.bet.place.nine.amt) {
+      //   if(Craps.bet.place.nine.working) {
+      //     if(call === 9) {
+      //       Craps.wonBet(Math.floor(Craps.bet.place.nine.amt * (7/5)));
+      //     }
+      //     if(call === 7) {
+      //       Craps.lostBet(Craps.bet.place.nine.amt);
+      //       Craps.bet.place.nine.amt = 0;
+      //     }
+      //   } else {
+      //     if(call === 9) { // take down
+      //       Craps.purse.amount += Craps.bet.place.nine.amt;
+      //       Craps.bet.place.nine.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    place10: function() {
+
+      // if(Craps.bet.place.ten.amt) {
+      //   if(Craps.bet.place.ten.working) {
+      //     if(call === 10) {
+      //       Craps.wonBet(Math.floor(Craps.bet.place.ten.amt * (9/5)));
+      //     }
+      //     if(call === 7) {
+      //       Craps.lostBet(Craps.bet.place.ten.amt);
+      //       Craps.bet.place.ten.amt = 0;
+      //     }
+      //   } else {
+      //     if(call === 10) { // take down
+      //       Craps.purse.amount += Craps.bet.place.ten.amt;
+      //       Craps.bet.place.ten.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    buy4: function() {
+
+      // if(Craps.bet.buy.four.amt) {
+      //   if(Craps.bet.buy.four.working) {
+      //     if(call === 4) {
+      //       Craps.wonBet(Math.ceil((Craps.bet.buy.four.amt * (2/1)) - (Craps.bet.buy.four.amt * 0.05)));
+      //     }
+      //     if(call === 7) {
+      //       Craps.lostBet(Craps.bet.buy.four.amt);
+      //       Craps.bet.buy.four.amt = 0;
+      //     }
+      //   } else {
+      //     if(call === 4) { // take down
+      //       Craps.purse.amount += Craps.bet.buy.four.amt;
+      //       Craps.bet.buy.four.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    buy5: function() {
+
+      // if(Craps.bet.buy.five.amt) {
+      //   if(Craps.bet.buy.five.working) {
+      //     if(call === 5) {
+      //       Craps.wonBet(Math.ceil((Craps.bet.buy.five.amt * (3/2)) - (Craps.bet.buy.five.amt * 0.05)));
+      //     }
+      //     if(call === 7) {
+      //       Craps.lostBet(Craps.bet.buy.five.amt);
+      //       Craps.bet.buy.five.amt = 0;
+      //     }
+      //   } else {
+      //     if(call === 5) { // take down
+      //       Craps.purse.amount += Craps.bet.buy.five.amt;
+      //       Craps.bet.buy.five.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    buy6: function() {
+
+      // if(Craps.bet.buy.six.amt) {
+      //   if(Craps.bet.buy.six.working) {
+      //     if(call === 6) {
+      //       Craps.wonBet(Math.ceil((Craps.bet.buy.six.amt * (6/5)) - (Craps.bet.buy.six.amt * 0.05)));
+      //     }
+      //     if(call === 7) {
+      //       Craps.lostBet(Craps.bet.buy.six.amt);
+      //       Craps.bet.buy.six.amt = 0;
+      //     }
+      //   } else {
+      //     if(call === 6) { // take down
+      //       Craps.purse.amount += Craps.bet.buy.six.amt;
+      //       Craps.bet.buy.six.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    buy8: function() {
+
+      // if(Craps.bet.buy.eight.amt) {
+      //   if(Craps.bet.buy.eight.working) {
+      //     if(call === 8) {
+      //       Craps.wonBet(Math.ceil((Craps.bet.buy.eight.amt * (6/5)) - (Craps.bet.buy.eight.amt * 0.05)));
+      //     }
+      //     if(call === 7) {
+      //       Craps.lostBet(Craps.bet.buy.eight.amt);
+      //       Craps.bet.buy.eight.amt = 0;
+      //     }
+      //   } else {
+      //     if(call === 8) { // take down
+      //       Craps.purse.amount += Craps.bet.buy.eight.amt;
+      //       Craps.bet.buy.eight.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    buy9: function() {
+
+      // if(Craps.bet.buy.nine.amt) {
+      //   if(Craps.bet.buy.nine.working) {
+      //     if(call === 9) {
+      //       Craps.wonBet(Math.ceil((Craps.bet.buy.nine.amt * (3/2)) - (Craps.bet.buy.nine.amt * 0.05)));
+      //     }
+      //     if(call === 7) {
+      //       Craps.lostBet(Craps.bet.buy.nine.amt);
+      //       Craps.bet.buy.nine.amt = 0;
+      //     }
+      //   } else {
+      //     if(call === 9) { // take down
+      //       Craps.purse.amount += Craps.bet.buy.nine.amt;
+      //       Craps.bet.buy.nine.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    buy10: function() {
+
+      // if(Craps.bet.buy.ten.amt) {
+      //   if(Craps.bet.buy.ten.working) {
+      //     if(call === 10) {
+      //       Craps.wonBet(Math.ceil((Craps.bet.buy.ten.amt * (2/1)) - (Craps.bet.buy.ten.amt * 0.05)));
+      //     }
+      //     if(call === 7) {
+      //       Craps.lostBet(Craps.bet.buy.ten.amt);
+      //       Craps.bet.buy.ten.amt = 0;
+      //     }
+      //   } else {
+      //     if(call === 10) { // take down
+      //       Craps.purse.amount += Craps.bet.buy.ten.amt;
+      //       Craps.bet.buy.ten.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    come4: function() {
+
+      // if(Craps.bet.come.four.amt) {
+      //   if(Craps.bet.come.four.working) {
+      //     if(call === 4) {
+      //       Craps.wonBet(Craps.bet.come.four.amt);
+      //       Craps.purse.amount += Craps.bet.come.four.amt; // take down
+      //       Craps.bet.come.four.amt = 0;
+      //     }
+      //     if(call === 7) {
+      //       Craps.lostBet(Craps.bet.come.four.amt);
+      //       Craps.bet.come.four.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    come5: function() {
+
+      // if(Craps.bet.come.five.amt) {
+      //   if(Craps.bet.come.five.working) {
+      //     if(call === 5) {
+      //       Craps.wonBet(Craps.bet.come.five.amt);
+      //       Craps.purse.amount += Craps.bet.come.five.amt; // take down
+      //       Craps.bet.come.five.amt = 0;
+      //     }
+      //     if(call === 7) {
+      //       Craps.lostBet(Craps.bet.come.five.amt);
+      //       Craps.bet.come.five.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    come6: function() {
+
+      // if(Craps.bet.come.six.amt) {
+      //   if(Craps.bet.come.six.working) {
+      //     if(call === 6) {
+      //       Craps.wonBet(Craps.bet.come.six.amt);
+      //       Craps.purse.amount += Craps.bet.come.six.amt; // take down
+      //       Craps.bet.come.six.amt = 0;
+      //     }
+      //     if(call === 7) {
+      //       Craps.lostBet(Craps.bet.come.six.amt);
+      //       Craps.bet.come.six.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    come8: function() {
+
+      // if(Craps.bet.come.eight.amt) {
+      //   if(Craps.bet.come.eight.working) {
+      //     if(call === 8) {
+      //       Craps.wonBet(Craps.bet.come.eight.amt);
+      //       Craps.purse.amount += Craps.bet.come.eight.amt; // take down
+      //       Craps.bet.come.eight.amt = 0;
+      //     }
+      //     if(call === 7) {
+      //       Craps.lostBet(Craps.bet.come.eight.amt);
+      //       Craps.bet.come.eigh.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    come9: function() {
+
+      // if(Craps.bet.come.nine.amt) {
+      //   if(Craps.bet.come.nine.working) {
+      //     if(call === 9) {
+      //       Craps.wonBet(Craps.bet.come.nine.amt);
+      //       Craps.purse.amount += Craps.bet.come.nine.amt; // take down
+      //       Craps.bet.come.nine.amt = 0;
+      //     }
+      //     if(call === 7) {
+      //       Craps.lostBet(Craps.bet.come.nine.amt);
+      //       Craps.bet.come.nine.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    come10: function() {
+
+      // if(Craps.bet.come.ten.amt) {
+      //   if(Craps.bet.come.ten.working) {
+      //     if(call === 10) {
+      //       Craps.wonBet(Craps.bet.come.ten.amt);
+      //       Craps.purse.amount += Craps.bet.come.ten.amt; // take down
+      //       Craps.bet.come.ten.amt = 0;
+      //     }
+      //     if(call === 7) {
+      //       Craps.lostBet(Craps.bet.come.ten.amt);
+      //       Craps.bet.come.ten.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    comeodds4: function() {
+
+      // if(Craps.bet.odds.four.amt) {
+      //   if(Craps.bet.odds.four.working) {
+      //     if(call === 4) {
+      //       Craps.wonBet(Math.floor(Craps.bet.odds.four.amt * (2/1)));
+      //     }
+      //     if(call === 7) {
+      //       Craps.lostBet(Craps.bet.odds.four.amt);
+      //       Craps.bet.odds.four.amt = 0;
+      //     }
+      //   } else {
+      //     if(call === 7) { // take down
+      //       Craps.purse.amount += Craps.bet.odds.four.amt;
+      //       Craps.bet.odds.four.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    comeodds5: function() {
+
+      // if(Craps.bet.odds.five.amt) {
+      //   if(Craps.bet.odds.five.working) {
+      //     if(call === 5) {
+      //       Craps.wonBet(Math.floor(Craps.bet.odds.five.amt * (3/2)));
+      //     }
+      //     if(call === 7) {
+      //       Craps.lostBet(Craps.bet.odds.five.amt);
+      //       Craps.bet.odds.five.amt = 0;
+      //     }
+      //   } else {
+      //     if(call === 7) { // take down
+      //       Craps.purse.amount += Craps.bet.odds.five.amt;
+      //       Craps.bet.odds.five.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    comeodds6: function() {
+
+      // if(Craps.bet.odds.six.amt) {
+      //   if(Craps.bet.odds.six.working) {
+      //     if(call === 6) {
+      //       Craps.wonBet(Math.floor(Craps.bet.odds.six.amt * (6/5)));
+      //     }
+      //     if(call === 7) {
+      //       Craps.lostBet(Craps.bet.odds.six.amt);
+      //       Craps.bet.odds.six.amt = 0;
+      //     }
+      //   } else {
+      //     if(call === 7) { // take down
+      //       Craps.purse.amount += Craps.bet.odds.six.amt;
+      //       Craps.bet.odds.six.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    comeodds8: function() {
+
+      // if(Craps.bet.odds.eight.amt) {
+      //   if(Craps.bet.odds.eight.working) {
+      //     if(call === 8) {
+      //       Craps.wonBet(Math.floor(Craps.bet.odds.eight.amt * (6/5)));
+      //     }
+      //     if(call === 7) {
+      //       Craps.lostBet(Craps.bet.odds.eight.amt);
+      //       Craps.bet.odds.eight.amt = 0;
+      //     }
+      //   } else {
+      //     if(call === 7) { // take down
+      //       Craps.purse.amount += Craps.bet.odds.eight.amt;
+      //       Craps.bet.odds.eight.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    comeodds9: function() {
+
+      // if(Craps.bet.odds.nine.amt) {
+      //   if(Craps.bet.odds.nine.working) {
+      //     if(call === 9) {
+      //       Craps.wonBet(Math.floor(Craps.bet.odds.nine.amt * (3/2)));
+      //     }
+      //     if(call === 7) {
+      //       Craps.lostBet(Craps.bet.odds.nine.amt);
+      //       Craps.bet.odds.nine.amt = 0;
+      //     }
+      //   } else {
+      //     if(call === 7) { // take down
+      //       Craps.purse.amount += Craps.bet.odds.nine.amt;
+      //       Craps.bet.odds.nine.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    comeodds10: function() {
+
+      // if(Craps.bet.odds.ten.amt) {
+      //   if(Craps.bet.odds.ten.working) {
+      //     if(call === 10) {
+      //       Craps.wonBet(Math.floor(Craps.bet.odds.ten.amt * (2/1)));
+      //     }
+      //     if(call === 7) {
+      //       Craps.lostBet(Craps.bet.odds.ten.amt);
+      //       Craps.bet.odds.ten.amt = 0;
+      //     }
+      //   } else {
+      //     if(call === 7) { // take down
+      //       Craps.purse.amount += Craps.bet.odds.ten.amt;
+      //       Craps.bet.odds.ten.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    lay4: function() {
+
+      // if(Craps.bet.lay.four.amt) {
+      //   if(Craps.bet.lay.four.working) {
+      //     if(call === 7) {
+      //       Craps.wonBet(Math.ceil((Craps.bet.lay.four.amt * (1/2)) - (Craps.bet.lay.four.amt * 0.05)));
+      //     }
+      //     if(call === 4) {
+      //       Craps.lostBet(Craps.bet.lay.four.amt);
+      //       Craps.bet.lay.four.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    lay5: function() {
+
+      // if(Craps.bet.lay.five.amt) {
+      //   if(Craps.bet.lay.five.working) {
+      //     if(call === 7) {
+      //       Craps.wonBet(Math.ceil((Craps.bet.lay.five.amt * (2/3)) - (Craps.bet.lay.five.amt * 0.05)));
+      //     }
+      //     if(call === 5) {
+      //       Craps.lostBet(Craps.bet.lay.five.amt);
+      //       Craps.bet.lay.five.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    lay6: function() {
+
+      // if(Craps.bet.lay.six.amt) {
+      //   if(Craps.bet.lay.six.working) {
+      //     if(call === 7) {
+      //       Craps.wonBet(Math.ceil((Craps.bet.lay.six.amt * (5/6)) - (Craps.bet.lay.six.amt * 0.05)));
+      //     }
+      //     if(call === 6) {
+      //       Craps.lostBet(Craps.bet.lay.six.amt);
+      //       Craps.bet.lay.six.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    lay8: function() {
+
+      // if(Craps.bet.lay.eight.amt) {
+      //   if(Craps.bet.lay.eight.working) {
+      //     if(call === 7) {
+      //       Craps.wonBet(Math.ceil((Craps.bet.lay.eight.amt * (5/6)) - (Craps.bet.lay.eight.amt * 0.05)));
+      //     }
+      //     if(call === 8) {
+      //       Craps.lostBet(Craps.bet.lay.eight.amt);
+      //       Craps.bet.lay.eight.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    lay9: function() {
+
+      // if(Craps.bet.lay.nine.amt) {
+      //   if(Craps.bet.lay.nine.working) {
+      //     if(call === 7) {
+      //       Craps.wonBet(Math.ceil((Craps.bet.lay.nine.amt * (2/3)) - (Craps.bet.lay.nine.amt * 0.05)));
+      //     }
+      //     if(call === 9) {
+      //       Craps.lostBet(Craps.bet.lay.nine.amt);
+      //       Craps.bet.lay.nine.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    lay10: function() {
+
+      // if(Craps.bet.lay.ten.amt) {
+      //   if(Craps.bet.lay.ten.working) {
+      //     if(call === 7) {
+      //       Craps.wonBet(Math.ceil((Craps.bet.lay.ten.amt * (1/2)) - (Craps.bet.lay.ten.amt * 0.05)));
+      //     }
+      //     if(call === 10) {
+      //       Craps.lostBet(Craps.bet.lay.ten.amt);
+      //       Craps.bet.lay.ten.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    dontcome4: function() {
+
+      // if(Craps.bet.dontCome.four.amt) {
+      //   if(Craps.bet.dontCome.four.working) {
+      //     if(call === 7) {
+      //       Craps.wonBet(Craps.bet.dontCome.four.amt);
+      //       Craps.purse.amount += Craps.bet.dontCome.four.amt; // take down
+      //       Craps.bet.dontCome.four.amt = 0;
+      //     }
+      //     if(call === 4) {
+      //       Craps.lostBet(Craps.bet.dontCome.four.amt);
+      //       Craps.bet.dontCome.four.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    dontcome5: function() {
+
+      // if(Craps.bet.dontCome.five.amt) {
+      //   if(Craps.bet.dontCome.five.working) {
+      //     if(call === 7) {
+      //       Craps.wonBet(Craps.bet.dontCome.five.amt);
+      //       Craps.purse.amount += Craps.bet.dontCome.five.amt; // take down
+      //       Craps.bet.dontCome.five.amt = 0;
+      //     }
+      //     if(call === 5) {
+      //       Craps.lostBet(Craps.bet.dontCome.five.amt);
+      //       Craps.bet.dontCome.five.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    dontcome6: function() {
+
+      // if(Craps.bet.dontCome.six.amt) {
+      //   if(Craps.bet.dontCome.six.working) {
+      //     if(call === 7) {
+      //       Craps.wonBet(Craps.bet.dontCome.six.amt);
+      //       Craps.purse.amount += Craps.bet.dontCome.six.amt; // take down
+      //       Craps.bet.dontCome.six.amt = 0;
+      //     }
+      //     if(call === 6) {
+      //       Craps.lostBet(Craps.bet.dontCome.six.amt);
+      //       Craps.bet.dontCome.six.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    dontcome8: function() {
+
+      // if(Craps.bet.dontCome.eight.amt) {
+      //   if(Craps.bet.dontCome.eight.working) {
+      //     if(call === 7) {
+      //       Craps.wonBet(Craps.bet.dontCome.eight.amt);
+      //       Craps.purse.amount += Craps.bet.dontCome.eight.amt; // take down
+      //       Craps.bet.dontCome.eight.amt = 0;
+      //     }
+      //     if(call === 8) {
+      //       Craps.lostBet(Craps.bet.dontCome.eight.amt);
+      //       Craps.bet.dontCome.eight.amt = 0;
+      //     }
+      //   }
+      // }
+      //
+    },
+
+    dontcome9: function() {
+
+      // if(Craps.bet.dontCome.nine.amt) {
+      //   if(Craps.bet.dontCome.nine.working) {
+      //     if(call === 7) {
+      //       Craps.wonBet(Craps.bet.dontCome.nine.amt);
+      //       Craps.purse.amount += Craps.bet.dontCome.nine.amt; // take down
+      //       Craps.bet.dontCome.nine.amt = 0;
+      //     }
+      //     if(call === 9) {
+      //       Craps.lostBet(Craps.bet.dontCome.nine.amt);
+      //       Craps.bet.dontCome.nine.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    dontcome10: function() {
+
+      // if(Craps.bet.dontCome.ten.amt) {
+      //   if(Craps.bet.dontCome.ten.working) {
+      //     if(call === 7) {
+      //       Craps.wonBet(Craps.bet.dontCome.ten.amt);
+      //       Craps.purse.amount += Craps.bet.dontCome.ten.amt; // take down
+      //       Craps.bet.dontCome.ten.amt = 0;
+      //     }
+      //     if(call === 10) {
+      //       Craps.lostBet(Craps.bet.dontCome.ten.amt);
+      //       Craps.bet.dontCome.ten.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    dontcomeodds4: function() {
+
+    },
+
+    dontcomeodds5: function() {
+
+    },
+
+    dontcomeodds6: function() {
+
+    },
+
+    dontcomeodds8: function() {
+
+    },
+
+    dontcomeodds9: function() {
+
+    },
+
+    dontcomeodds10: function() {
+
+    },
+
+    hard4: function() {
+
+      // if(Craps.bet.hard.four.amt) {
+      //   if(Craps.bet.hard.four.working) {
+      //     if(call === 4) {
+      //       if(Craps.dice[0] === 2 && Craps.dice[1] === 2) {
+      //         Craps.wonBet(Math.floor(Craps.bet.hard.four.amt * (7/1)));
+      //       } else {
+      //         Craps.lostBet(Craps.bet.hard.four.amt);
+      //         Craps.bet.hard.four.amt = 0;
+      //       }
+      //     }
+      //     if(call === 7) {
+      //       Craps.lostBet(Craps.bet.hard.four.amt);
+      //       Craps.bet.hard.four.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    hard6: function() {
+
+      // if(Craps.bet.hard.six.amt) {
+      //   if(Craps.bet.hard.six.working) {
+      //     if(call === 6) {
+      //       if(Craps.dice[0] === 3 && Craps.dice[1] === 3) {
+      //         Craps.wonBet(Math.floor(Craps.bet.hard.six.amt * (9/1)));
+      //       } else {
+      //         Craps.lostBet(Craps.bet.hard.six.amt);
+      //         Craps.bet.hard.six.amt = 0;
+      //       }
+      //     }
+      //     if(call === 7) {
+      //       Craps.lostBet(Craps.bet.hard.six.amt);
+      //       Craps.bet.hard.six.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    hard8: function() {
+
+      // if(Craps.bet.hard.eight.amt) {
+      //   if(Craps.bet.hard.eight.working) {
+      //     if(call === 8) {
+      //       if(Craps.dice[0] === 4 && Craps.dice[1] === 4) {
+      //         Craps.wonBet(Math.floor(Craps.bet.hard.eight.amt * (9/1)));
+      //       } else {
+      //         Craps.lostBet(Craps.bet.hard.eight.amt);
+      //         Craps.bet.hard.eight.amt = 0;
+      //       }
+      //     }
+      //     if(call === 7) {
+      //       Craps.lostBet(Craps.bet.hard.eight.amt);
+      //       Craps.bet.hard.eight.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    hard10: function() {
+
+      // if(Craps.bet.hard.ten.amt) {
+      //   if(Craps.bet.hard.ten.working) {
+      //     if(call === 10) {
+      //       if(Craps.dice[0] === 5 && Craps.dice[1] === 5) {
+      //         Craps.wonBet(Math.floor(Craps.bet.hard.ten.amt * (7/1)));
+      //       } else {
+      //         Craps.lostBet(Craps.bet.hard.ten.amt);
+      //         Craps.bet.hard.ten.amt = 0;
+      //       }
+      //     }
+      //     if(call === 7) {
+      //       Craps.lostBet(Craps.bet.hard.ten.amt);
+      //       Craps.bet.hard.ten.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    craps: function() {
+
+      // if(Craps.bet.craps.amt) {
+      //   if(Craps.bet.craps.working) {
+      //     if(call === 2 || call === 3 || call === 12) {
+      //       Craps.wonBet(Math.floor(Craps.bet.craps.amt *(7/1)));
+      //     } else {
+      //       Craps.lostBet(Craps.bet.craps.amt);
+      //       Craps.bet.craps.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    yo11: function() {
+
+      // if(Craps.bet.yo.amt) {
+      //   if(Craps.bet.yo.working) {
+      //     if(call === 11) {
+      //       Craps.wonBet(Math.floor(Craps.bet.yo.amt * (15/1)));
+      //     } else {
+      //       Craps.lostBet(Craps.bet.yo.amt);
+      //       Craps.bet.yo.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    field: function() {
+
+      // if(Craps.bet.field.amt) {
+      //   if(Craps.bet.field.working) {
+      //     if(call === 2) {
+      //       Craps.wonBet(Craps.bet.field.amt * 2);
+      //     } else if(call === 3) {
+      //       Craps.wonBet(Craps.bet.field.amt);
+      //     } else if(call === 4) {
+      //       Craps.wonBet(Craps.bet.field.amt);
+      //     } else if(call === 9) {
+      //       Craps.wonBet(Craps.bet.field.amt);
+      //     } else if(call === 10) {
+      //       Craps.wonBet(Craps.bet.field.amt);
+      //     } else if(call === 11) {
+      //       Craps.wonBet(Craps.bet.field.amt);
+      //     } else if(call === 12) {
+      //       Craps.wonBet(Craps.bet.field.amt * 2);
+      //     } else {
+      //       Craps.lostBet(Craps.bet.field.amt);
+      //       Craps.bet.field.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    big6: function() {
+
+      // if(Craps.bet.big.six.amt) {
+      //   if(Craps.bet.big.six.working) {
+      //     if(call === 6) {
+      //       Craps.wonBet(Craps.bet.big.six.amt);
+      //     }
+      //     if(call === 7) {
+      //       Craps.lostBet(Craps.bet.big.six.amt);
+      //       Craps.bet.big.six.amt = 0;
+      //     }
+      //   }
+      // }
+
+    },
+
+    big8: function() {
+
+      // if(Craps.bet.big.eight.amt) {
+      //   if(Craps.bet.big.eight.working) {
+      //     if(call === 8) {
+      //       Craps.wonBet(Craps.bet.big.eight.amt);
+      //     }
+      //     if(call === 7) {
+      //       Craps.lostBet(Craps.bet.big.eight.amt);
+      //       Craps.bet.big.eight.amt = 0;
+      //     }
+      //   }
+      // }
+
+    }
+
+  };
+
+})(jQuery);
