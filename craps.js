@@ -14,8 +14,8 @@ var Craps = {};
       amount: 0 // the running total of money not on the table
     },
     table: 0, // the total amount of money on the table
-    winnings: 0, // the total amount of money won on a roll
-    losses: 0, // the total amount of money lost on a roll
+    won: 0, // the total amount of money won on a roll
+    lost: 0, // the total amount of money lost on a roll
 
     init: function() {
 
@@ -131,8 +131,8 @@ var Craps = {};
       logEntry += Craps.tableCell(Craps.count); // Run
       logEntry += Craps.tableCell(point); // Point
       logEntry += Craps.tableCell(dice); // Dice
-      logEntry += Craps.tableCell(Craps.winnings); // Winnings
-      logEntry += Craps.tableCell(Craps.losses); // Losses
+      logEntry += Craps.tableCell(Craps.won); // Winnings
+      logEntry += Craps.tableCell(Craps.lost); // Losses
       logEntry += Craps.tableCell(Craps.purse.amount); // Purse
       logEntry += '</tr>';
 
@@ -142,7 +142,7 @@ var Craps = {};
 
     wonBet: function(amount) {
 
-      Craps.winnings += amount;
+      Craps.won += amount;
       Craps.purse.amount += amount;
 
     },
@@ -158,8 +158,8 @@ var Craps = {};
       var point = Craps.point;
       var call = Craps.call;
 
-      Craps.winnings = 0;
-      Craps.losses = 0;
+      Craps.won = 0;
+      Craps.lost = 0;
 
     },
 

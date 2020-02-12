@@ -6,10 +6,10 @@ var Table = {};
 
     bet: {
 
-      passline: { amount: 100, working: 1, count: 0 },
-      passlineodds: { amount: 0, working: 1, count: 0 },
+      passline: { amount: 0, working: 1, count: 0 },
+      passlineodds: { amount: 0, working: 0, count: 0 },
       dontpass: { amount: 0, working: 1, count: 0 },
-      dontpassodds: { amount: 0, working: 1, count: 0 },
+      dontpassodds: { amount: 0, working: 0, count: 0 },
       newcome: { amount: 0, working: 0, count: 0 },
       newdontcome: { amount: 0, working: 0, count: 0 },
 
@@ -78,7 +78,16 @@ var Table = {};
 
     init: function () {
 
-      console.log(Table.bet);
+      //console.log(Table.bet);
+      Table.refresh();
+
+    },
+
+    refresh: function() {
+
+      for(key in Table.bet) {
+        $('#bet-' + key).text(Table.bet[key].amount);
+      }
 
     },
 
@@ -102,133 +111,132 @@ var Table = {};
 
     movePuck: function() {
 
-      if(Craps.point) { // if the point is established (ON)
+      Table.refresh();
 
-        if(Craps.call === 7 || Craps.call === Craps.point) { // seven out or hit the point
-
-          Craps.point = 0;
-          Craps.count = 0;
-
-          // Turn off bets
-          Craps.bet.newCome.working = 0;
-          Craps.bet.passLineOdds.working = 0;
-          Craps.bet.dontPassOdds.working = 0;
-          Craps.bet.newDontCome.working = 0;
-
-          // Turn off place bets
-          Craps.bet.place.four.working = 0;
-          Craps.bet.place.five.working = 0;
-          Craps.bet.place.six.working = 0;
-          Craps.bet.place.eight.working = 0;
-          Craps.bet.place.nine.working = 0;
-          Craps.bet.place.ten.working = 0;
-
-          // Turn off buy bets
-          Craps.bet.buy.four.working = 0;
-          Craps.bet.buy.five.working = 0;
-          Craps.bet.buy.six.working = 0;
-          Craps.bet.buy.eight.working = 0;
-          Craps.bet.buy.nine.working = 0;
-          Craps.bet.buy.ten.working = 0;
-
-          // Turn off lay bets
-          Craps.bet.lay.four.working = 0;
-          Craps.bet.lay.five.working = 0;
-          Craps.bet.lay.six.working = 0;
-          Craps.bet.lay.eight.working = 0;
-          Craps.bet.lay.nine.working = 0;
-          Craps.bet.lay.ten.working = 0;
-
-          // Turn off odds bets
-          Craps.bet.odds.four.working = 0;
-          Craps.bet.odds.five.working = 0;
-          Craps.bet.odds.six.working = 0;
-          Craps.bet.odds.eight.working = 0;
-          Craps.bet.odds.nine.working = 0;
-          Craps.bet.odds.ten.working = 0;
-
-          // Turn off don't come bets
-          Craps.bet.dontCome.four.working = 0;
-          Craps.bet.dontCome.five.working = 0;
-          Craps.bet.dontCome.six.working = 0;
-          Craps.bet.dontCome.eight.working = 0;
-          Craps.bet.dontCome.nine.working = 0;
-          Craps.bet.dontCome.ten.working = 0;
-
-          // Turn off hard bets
-          Craps.bet.hard.four.working = 0;
-          Craps.bet.hard.six.working = 0;
-          Craps.bet.hard.eight.working = 0;
-          Craps.bet.hard.ten.working = 0;
-
-        } else if(Craps.call !== 2 && Craps.call !== 3 && Craps.call !== 11) {
-
-          Craps.count += 1 // count the rolls between 7's
-
-        }
-
-      } else { // if the point is not estableshed (OFF)
-
-        if(Craps.call === 4 || Craps.call === 5 || Craps.call === 6 || Craps.call === 8 || Craps.call === 9 || Craps.call === 10) { // establish point
-
-          Craps.point = Craps.call;
-          Craps.count += 1; // count the rolls between 7's
-
-          // Turn on bets
-          Craps.bet.newCome.working = 1;
-          Craps.bet.passLineOdds.working = 1;
-          Craps.bet.dontPassOdds.working = 1;
-          Craps.bet.newDontCome.working = 1;
-
-          // Turn on place bets
-          Craps.bet.place.four.working = 1;
-          Craps.bet.place.five.working = 1;
-          Craps.bet.place.six.working = 1;
-          Craps.bet.place.eight.working = 1;
-          Craps.bet.place.nine.working = 1;
-          Craps.bet.place.ten.working = 1;
-
-          // Turn on buy bets
-          Craps.bet.buy.four.working = 1;
-          Craps.bet.buy.five.working = 1;
-          Craps.bet.buy.six.working = 1;
-          Craps.bet.buy.eight.working = 1;
-          Craps.bet.buy.nine.working = 1;
-          Craps.bet.buy.ten.working = 1;
-
-          // Turn on lay bets
-          Craps.bet.lay.four.working = 1;
-          Craps.bet.lay.five.working = 1;
-          Craps.bet.lay.six.working = 1;
-          Craps.bet.lay.eight.working = 1;
-          Craps.bet.lay.nine.working = 1;
-          Craps.bet.lay.ten.working = 1;
-
-          // Turn on odds bets
-          Craps.bet.odds.four.working = 1;
-          Craps.bet.odds.five.working = 1;
-          Craps.bet.odds.six.working = 1;
-          Craps.bet.odds.eight.working = 1;
-          Craps.bet.odds.nine.working = 1;
-          Craps.bet.odds.ten.working = 1;
-
-          // Turn on don't come bets
-          Craps.bet.dontCome.four.working = 1;
-          Craps.bet.dontCome.five.working = 1;
-          Craps.bet.dontCome.six.working = 1;
-          Craps.bet.dontCome.eight.working = 1;
-          Craps.bet.dontCome.nine.working = 1;
-          Craps.bet.dontCome.ten.working = 1;
-
-          // Turn on hard bets
-          Craps.bet.hard.four.working = 1;
-          Craps.bet.hard.six.working = 1;
-          Craps.bet.hard.eight.working = 1;
-          Craps.bet.hard.ten.working = 1;
-
-        }
-
-      }
+      // if(Craps.point) { // if the point is established (ON)
+      //
+      //   if(Craps.call === 7 || Craps.call === Craps.point) { // seven out or hit the point
+      //
+      //     // [
+      //     //   'newcome',
+      //     //   'passlineodds',
+      //     //   'dontpassodds',
+      //     //   'newdontcome',
+      //     //   'place4',
+      //     //   'place5',
+      //     //   'place6',
+      //     //   'place8',
+      //     //   'place9',
+      //     //   'place10',
+      //     //   'buy4',
+      //     //   'buy5',
+      //     //   'buy6',
+      //     //   'buy8',
+      //     //   'buy9',
+      //     //   'buy10',
+      //     //   'lay4',
+      //     //   'lay5',
+      //     //   'lay6',
+      //     //   'lay8',
+      //     //   'lay9',
+      //     //   'lay10',
+      //     //   'odds4',
+      //     //   'odds5',
+      //     //   'odds6',
+      //     //   'odds8',
+      //     //   'odds9',
+      //     //   'odds10',
+      //     //   'dontcome4',
+      //     //   'dontcome5',
+      //     //   'dontcome6',
+      //     //   'dontcome8',
+      //     //   'dontcome9',
+      //     //   'dontcome10',
+      //     //   'dontcomeodds4',
+      //     //   'dontcomeodds5',
+      //     //   'dontcomeodds6',
+      //     //   'dontcomeodds8',
+      //     //   'dontcomeodds9',
+      //     //   'dontcomeodds10',
+      //     //   'hard4',
+      //     //   'hard6',
+      //     //   'hard8',
+      //     //   'hard10',
+      //     // ]
+      //
+      //     Craps.point = 0;
+      //     Craps.count = 0;
+      //
+      //
+      //
+      //   } else if(Craps.call !== 2 && Craps.call !== 3 && Craps.call !== 11) {
+      //
+      //     Craps.count += 1 // count the rolls between 7's
+      //
+      //   }
+      //
+      // } else { // if the point is not estableshed (OFF)
+      //
+      //   if(Craps.call === 4 || Craps.call === 5 || Craps.call === 6 || Craps.call === 8 || Craps.call === 9 || Craps.call === 10) { // establish point
+      //
+      //     Craps.point = Craps.call;
+      //     Craps.count += 1; // count the rolls between 7's
+      //
+      //     // // Turn on bets
+      //     // Craps.bet.newCome.working = 1;
+      //     // Craps.bet.passLineOdds.working = 1;
+      //     // Craps.bet.dontPassOdds.working = 1;
+      //     // Craps.bet.newDontCome.working = 1;
+      //     //
+      //     // // Turn on place bets
+      //     // Craps.bet.place.four.working = 1;
+      //     // Craps.bet.place.five.working = 1;
+      //     // Craps.bet.place.six.working = 1;
+      //     // Craps.bet.place.eight.working = 1;
+      //     // Craps.bet.place.nine.working = 1;
+      //     // Craps.bet.place.ten.working = 1;
+      //     //
+      //     // // Turn on buy bets
+      //     // Craps.bet.buy.four.working = 1;
+      //     // Craps.bet.buy.five.working = 1;
+      //     // Craps.bet.buy.six.working = 1;
+      //     // Craps.bet.buy.eight.working = 1;
+      //     // Craps.bet.buy.nine.working = 1;
+      //     // Craps.bet.buy.ten.working = 1;
+      //     //
+      //     // // Turn on lay bets
+      //     // Craps.bet.lay.four.working = 1;
+      //     // Craps.bet.lay.five.working = 1;
+      //     // Craps.bet.lay.six.working = 1;
+      //     // Craps.bet.lay.eight.working = 1;
+      //     // Craps.bet.lay.nine.working = 1;
+      //     // Craps.bet.lay.ten.working = 1;
+      //     //
+      //     // // Turn on odds bets
+      //     // Craps.bet.odds.four.working = 1;
+      //     // Craps.bet.odds.five.working = 1;
+      //     // Craps.bet.odds.six.working = 1;
+      //     // Craps.bet.odds.eight.working = 1;
+      //     // Craps.bet.odds.nine.working = 1;
+      //     // Craps.bet.odds.ten.working = 1;
+      //     //
+      //     // // Turn on don't come bets
+      //     // Craps.bet.dontCome.four.working = 1;
+      //     // Craps.bet.dontCome.five.working = 1;
+      //     // Craps.bet.dontCome.six.working = 1;
+      //     // Craps.bet.dontCome.eight.working = 1;
+      //     // Craps.bet.dontCome.nine.working = 1;
+      //     // Craps.bet.dontCome.ten.working = 1;
+      //     //
+      //     // // Turn on hard bets
+      //     // Craps.bet.hard.four.working = 1;
+      //     // Craps.bet.hard.six.working = 1;
+      //     // Craps.bet.hard.eight.working = 1;
+      //     // Craps.bet.hard.ten.working = 1;
+      //
+      //   }
+      //
+      // }
 
     }
 

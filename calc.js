@@ -10,230 +10,210 @@ var Calc = {};
 
     },
 
-    run: function(array) { // Array of function names
+    run: function(bets, dice, point) { // array of bets e.g. ['passline', 'dontpass']; array of dice e.g. [3,5]
 
-      var all = [
-        'passline',
-        'passlineodds',
-        'dontpass',
-        'dontpassodds',
-        'newcome',
-        'newdontcome', // add the rest of the functions
-      ];
-      var q = (!array) ? all : array; // Run all calculations unless otherwise specified
+      var q = {};
       var name = null;
 
-      // Run each calculation
-      for (var i = 0; i < q.length; i++) {
-        name = q[i];
-        Calc[name]();
+      // Build the queue
+      if(bets) { // add only specified bets
+         for(var i = 0; i < bets.length; i++) {
+           q[bets[i]] = Table.bet[bets[i]];
+         }
+      } else { // add all bets
+        q = Table.bet;
+      }
+
+      // Manually set the dice
+      if(dice) {
+        Craps.dice[0] = dice[0];
+        Craps.dice[1] = dice[1];
+        Craps.call = dice[0] + dice[1];
+      }
+
+      // Manually set the point
+      if(point) Craps.point = point;
+
+      console.log(q);
+      console.log('the roll is a ' + Craps.call + ' (' + Craps.dice[0] + '+' + Craps.dice[1] + ')');
+
+      // Run calculations
+      for(bet in q) {
+        console.log('$' + q[bet].amount + ' ' + bet + ' bet calculating...');
+        Calc[bet]();
+      };
+
+    },
+
+    win: function(key, amount, takedown) {
+
+      if(key) {
+
+        if(amount) {
+          Craps.purse.amount += amount;
+          Craps.won += amount;
+          console.log('you WIN $' + amount);
+        }
+
+        if(takedown) {
+          // Craps.purse.amount += Table.bet[key].amount;
+          // Table.bet[key].amount = 0;
+        }
+
+      }
+
+    },
+
+    lose: function(key) {
+
+      if(key) {
+
+        //Table.bet[key].amount = 0;
+        Craps.lost += Table.bet[key].amount;
+        console.log('you LOSE $' + Table.bet[key].amount);
+
+      }
+
+    },
+
+    move: function(key, destination) {
+
+      if(key && destination) {
+        // Table.bet[destination].amount = Table.bet[key].amount;
+        // Table.bet[key].amount = 0;
       }
 
     },
 
     passline: function() {
 
-      // if(Craps.bet.passLine.amt) {
-      //   if(Craps.bet.passLine.working) {
-      //     if(point) {
-      //       if(call === point) {
-      //         Craps.wonBet(Craps.bet.passLine.amt);
-      //       }
-      //       if(call === 7) {
-      //         Craps.lostBet(Craps.bet.passLine.amt);
-      //         Craps.bet.passLine.amt = 0;
-      //       }
-      //     } else {
-      //       if(call === 7 || call === 11) {
-      //         Craps.wonBet(Craps.bet.passLine.amt);
-      //       }
-      //       if(call === 2 || call === 3 || call === 12) {
-      //         Craps.lostBet(Craps.bet.passLine.amt);
-      //         Craps.bet.passLine.amt = 0;
-      //       }
-      //     }
-      //   }
-      // }
+      var key = 'passline';
+      var bet = Table.bet[key];
+      var call = Craps.call;
+      var point = Craps.point;
+
+      if(bet.amount && bet.working) {
+        if(point) {
+          if(call === point) Calc.win(key, bet.amount);
+          if(call === 7) Calc.lose(key);
+        } else {
+          if(call === 7 || call === 11) Calc.win(key, bet.amount);
+          if(call === 2 || call === 3 || call === 12) Calc.lose(key);
+        }
+      }
 
     },
 
     passlineodds: function() {
 
-      // if(Craps.bet.passLineOdds.amt) {
-      //   if(Craps.bet.passLineOdds.working) {
-      //     if(point) {
-      //       if(call === point) {
-      //         if(call === 4) {
-      //           Craps.wonBet(Math.floor(Craps.bet.passLineOdds.amt * (9/5)));
-      //         }
-      //         if(call === 5) {
-      //           Craps.wonBet(Math.floor(Craps.bet.passLineOdds.amt * (7/5)));
-      //         }
-      //         if(call === 6) {
-      //           Craps.wonBet(Math.floor(Craps.bet.passLineOdds.amt * (7/6)));
-      //         }
-      //         if(call === 8) {
-      //           Craps.wonBet(Math.floor(Craps.bet.passLineOdds.amt * (7/6)));
-      //         }
-      //         if(call === 9) {
-      //           Craps.wonBet(Math.floor(Craps.bet.passLineOdds.amt * (7/5)));
-      //         }
-      //         if(call === 10) {
-      //           Craps.wonBet(Math.floor(Craps.bet.passLineOdds.amt * (9/5)));
-      //         }
-      //       }
-      //       if(call === 7) {
-      //         Craps.lostBet(Craps.bet.passLineOdds.amt);
-      //         Craps.bet.passLineOdds.amt = 0;
-      //       }
-      //     } else {
-      //       // No payout if point is off?
-      //     }
-      //   }
-      // }
+      var key = 'passlineodds';
+      var bet = Table.bet[key];
+      var call = Craps.call;
+      var point = Craps.point;
+      var a = [];
+
+      a.push(Math.floor(bet.amount * (2/1))); // 4, 10
+      a.push(Math.floor(bet.amount * (3/2))); // 5, 9
+      a.push(Math.floor(bet.amount * (6/5))); // 6, 8
+
+      if(bet.amount && bet.working) {
+        if(point) {
+          if(call === point) {
+            if(call === 4) Calc.win(key, a[0], true);
+            if(call === 5) Calc.win(key, a[1], true);
+            if(call === 6) Calc.win(key, a[2], true);
+            if(call === 8) Calc.win(key, a[2], true);
+            if(call === 9) Calc.win(key, a[1], true);
+            if(call === 10) Calc.win(key, a[0], true);
+          }
+          if(call === 7) Calc.lose(key);
+        }
+      }
 
     },
 
     dontpass: function() {
 
-      // if(Craps.bet.dontPass.amt) {
-      //   if(Craps.bet.dontPass.working) {
-      //     if(point) {
-      //       if(call === 7) {
-      //         Craps.wonBet(Craps.bet.dontPass.amt);
-      //       }
-      //       if(call === point) {
-      //         Craps.lostBet(Craps.bet.dontPass.amt);
-      //         Craps.bet.dontPass.amt = 0;
-      //       }
-      //     } else {
-      //       if(call === 2 || call === 3) { // 12 pushes
-      //         Craps.wonBet(Craps.bet.dontPass.amt);
-      //       }
-      //       if(call === 7 || call === 11) {
-      //         Craps.lostBet(Craps.bet.dontPass.amt);
-      //         Craps.bet.dontPass.amt = 0;
-      //       }
-      //     }
-      //   }
-      // }
+      var key = 'dontpass';
+      var bet = Table.bet[key];
+      var call = Craps.call;
+      var point = Craps.point;
+
+      if(bet.amount && bet.working) {
+        if(point) {
+          if(call === 7) Calc.win(key, bet.amount);
+          if(call === point) Calc.lose(key);
+        } else {
+          if(call === 2 || call === 3) Calc.win(key, bet.amount); // 12 pushes
+          if(call === 7 || call === 11) Calc.lose(key);
+        }
+      }
 
     },
 
     dontpassodds: function() {
 
-      // if(Craps.bet.dontPassOdds.amt) {
-      //   if(Craps.bet.dontPassOdds.working) {
-      //     if(point) {
-      //       if(call === 7) {
-      //         if(point === 4) {
-      //           Craps.wonBet(Math.floor(Craps.bet.dontPassOdds.amt * (1/2)));
-      //         }
-      //         if(point === 5) {
-      //           Craps.wonBet(Math.floor(Craps.bet.dontPassOdds.amt * (2/3)));
-      //         }
-      //         if(point === 6) {
-      //           Craps.wonBet(Math.floor(Craps.bet.dontPassOdds.amt * (5/6)));
-      //         }
-      //         if(point === 8) {
-      //           Craps.wonBet(Math.floor(Craps.bet.dontPassOdds.amt * (5/6)));
-      //         }
-      //         if(point === 9) {
-      //           Craps.wonBet(Math.floor(Craps.bet.dontPassOdds.amt * (2/3)));
-      //         }
-      //         if(point === 10) {
-      //           Craps.wonBet(Math.floor(Craps.bet.dontPassOdds.amt * (1/2)));
-      //         }
-      //       }
-      //       if(call === point) {
-      //         Craps.lostBet(Craps.bet.dontPassOdds.amt);
-      //         Craps.bet.dontPassOdds.amt = 0;
-      //       }
-      //     } else {
-      //       // What happens when there is no point?
-      //     }
-      //   }
-      // }
+      var key = 'dontpassodds';
+      var bet = Table.bet[key];
+      var call = Craps.call;
+      var point = Craps.point;
+      var a = [];
+
+      a.push(Math.floor(bet.amount * (1/2))); // 4, 10
+      a.push(Math.floor(bet.amount * (2/3))); // 5, 9
+      a.push(Math.floor(bet.amount * (5/6))); // 6, 8
+
+      if(bet.amount && bet.working) {
+        if(point) {
+          if(call === 7) {
+            if(point === 4) Calc.win(key, a[0], true);
+            if(point === 5) Calc.win(key, a[1], true);
+            if(point === 6) Calc.win(key, a[2], true);
+            if(point === 8) Calc.win(key, a[2], true);
+            if(point === 9) Calc.win(key, a[1], true);
+            if(point === 10) Calc.win(key, a[0], true);
+          }
+          if(call === point) Calc.lose(key);
+        }
+      }
 
     },
 
     newcome: function() {
 
-      // if(Craps.bet.newCome.amt) {
-      //   if(Craps.bet.newCome.working) {
-      //     if(call === 7 || call === 11) {
-      //       Craps.wonBet(Craps.bet.newCome.amt);
-      //     }
-      //     if(call === 2 || call === 3 || call === 12) {
-      //       Craps.lostBet(Craps.bet.newCome.amt);
-      //       Craps.bet.newCome.amt = 0;
-      //     }
-      //     if(call === 4) { // moves
-      //       Craps.bet.come.four.amt = Craps.bet.newCome.amt;
-      //       Craps.bet.newCome.amt = 0;
-      //     }
-      //     if(call === 5) { // moves
-      //       Craps.bet.come.five.amt = Craps.bet.newCome.amt;
-      //       Craps.bet.newCome.amt = 0;
-      //     }
-      //     if(call === 6) { // moves
-      //       Craps.bet.come.six.amt = Craps.bet.newCome.amt;
-      //       Craps.bet.newCome.amt = 0;
-      //     }
-      //     if(call === 8) { // moves
-      //       Craps.bet.come.eight.amt = Craps.bet.newCome.amt;
-      //       Craps.bet.newCome.amt = 0;
-      //     }
-      //     if(call === 9) { // moves
-      //       Craps.bet.come.nine.amt = Craps.bet.newCome.amt;
-      //       Craps.bet.newCome.amt = 0;
-      //     }
-      //     if(call === 10) { // moves
-      //       Craps.bet.come.ten.amt = Craps.bet.newCome.amt;
-      //       Craps.bet.newCome.amt = 0;
-      //     }
-      //   }
-      // }
+      var key = 'newcome';
+      var bet = Table.bet[key];
+      var call = Craps.call;
+
+      if(bet.amount && bet.working) {
+        if(call === 7 || call === 11) Calc.win(key, bet.amount);
+        if(call === 4) Calc.move(key, 'come4');
+        if(call === 5) Calc.move(key, 'come5');
+        if(call === 6) Calc.move(key, 'come6');
+        if(call === 8) Calc.move(key, 'come8');
+        if(call === 9) Calc.move(key, 'come9');
+        if(call === 10) Calc.move(key, 'come10');
+        if(call === 2 || call === 3 || call === 12) Calc.lose(key);
+      }
 
     },
 
     newdontcome: function() {
 
-      // if(Craps.bet.newDontCome.amt) {
-      //   if(Craps.bet.newDontCome.working) {
-      //     if(call === 2 || call === 3) { // 12 pushes
-      //       Craps.wonBet(Craps.bet.newDontCome.amt);
-      //     }
-      //     if(call === 7 || call === 11) {
-      //       Craps.lostBet(Craps.bet.newDontCome.amt);
-      //       Craps.bet.newDontCome.amt = 0;
-      //     }
-      //     if(call === 4) { // moves
-      //       Craps.bet.dontCome.four = Craps.bet.newDontCome.amt;
-      //       Craps.bet.newDontCome.amt = 0;
-      //     }
-      //     if(call === 5) { // moves
-      //       Craps.bet.dontCome.five = Craps.bet.newDontCome.amt;
-      //       Craps.bet.newDontCome.amt = 0;
-      //     }
-      //     if(call === 6) { // moves
-      //       Craps.bet.dontCome.six = Craps.bet.newDontCome.amt;
-      //       Craps.bet.newDontCome.amt = 0;
-      //     }
-      //     if(call === 8) { // moves
-      //       Craps.bet.dontCome.eight = Craps.bet.newDontCome.amt;
-      //       Craps.bet.newDontCome.amt = 0;
-      //     }
-      //     if(call === 9) { // moves
-      //       Craps.bet.dontCome.nine = Craps.bet.newDontCome.amt;
-      //       Craps.bet.newDontCome.amt = 0;
-      //     }
-      //     if(call === 10) { // moves
-      //       Craps.bet.dontCome.ten = Craps.bet.newDontCome.amt;
-      //       Craps.bet.newDontCome.amt = 0;
-      //     }
-      //   }
-      // }
+      var key = 'newdontcome';
+      var bet = Table.bet[key];
+      var call = Craps.call;
+
+      if(bet.amount && bet.working) {
+        if(call === 2 || call === 3) Calc.win(key, bet.amount); // 12 pushes
+        if(call === 4) Calc.move(key, 'dontcome4');
+        if(call === 5) Calc.move(key, 'dontcome5');
+        if(call === 6) Calc.move(key, 'dontcome6');
+        if(call === 8) Calc.move(key, 'dontcome8');
+        if(call === 9) Calc.move(key, 'dontcome9');
+        if(call === 10) Calc.move(key, 'dontcome10');
+        if(call === 7 || call === 11) Calc.lose(key);
+      }
 
     },
 
