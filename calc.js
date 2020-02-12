@@ -97,8 +97,13 @@ var Calc = {};
           if(call === point) Calc.win(key, bet.amount);
           if(call === 7) Calc.lose(key);
         } else {
-          if(call === 7 || call === 11) Calc.win(key, bet.amount);
-          if(call === 2 || call === 3 || call === 12) Calc.lose(key);
+          switch(call) {
+            case 2: Calc.lose(key); break;
+            case 3: Calc.lose(key); break;
+            case 7: Calc.win(key, bet.amount); break;
+            case 11: Calc.win(key, bet.amount); break;
+            case 12: Calc.lose(key); break;
+          }
         }
       }
 
@@ -119,12 +124,14 @@ var Calc = {};
       if(bet.amount && bet.working) {
         if(point) {
           if(call === point) {
-            if(call === 4) Calc.win(key, a[0], true);
-            if(call === 5) Calc.win(key, a[1], true);
-            if(call === 6) Calc.win(key, a[2], true);
-            if(call === 8) Calc.win(key, a[2], true);
-            if(call === 9) Calc.win(key, a[1], true);
-            if(call === 10) Calc.win(key, a[0], true);
+            switch(call) {
+              case 4: Calc.win(key, a[0], true); break;
+              case 5: Calc.win(key, a[1], true); break;
+              case 6: Calc.win(key, a[2], true); break;
+              case 8: Calc.win(key, a[2], true); break;
+              case 9: Calc.win(key, a[1], true); break;
+              case 10: Calc.win(key, a[0], true); break;
+            }
           }
           if(call === 7) Calc.lose(key);
         }
@@ -144,8 +151,12 @@ var Calc = {};
           if(call === 7) Calc.win(key, bet.amount);
           if(call === point) Calc.lose(key);
         } else {
-          if(call === 2 || call === 3) Calc.win(key, bet.amount); // 12 pushes
-          if(call === 7 || call === 11) Calc.lose(key);
+          switch(call) { // 12 pushes
+            case 2: Calc.win(key, bet.amount); break;
+            case 3: Calc.win(key, bet.amount); break;
+            case 7: Calc.lose(key); break;
+            case 11: Calc.lose(key); break;
+          }
         }
       }
 
@@ -166,12 +177,14 @@ var Calc = {};
       if(bet.amount && bet.working) {
         if(point) {
           if(call === 7) {
-            if(point === 4) Calc.win(key, a[0], true);
-            if(point === 5) Calc.win(key, a[1], true);
-            if(point === 6) Calc.win(key, a[2], true);
-            if(point === 8) Calc.win(key, a[2], true);
-            if(point === 9) Calc.win(key, a[1], true);
-            if(point === 10) Calc.win(key, a[0], true);
+            switch(point) {
+              case 4: Calc.win(key, a[0], true); break;
+              case 5: Calc.win(key, a[1], true); break;
+              case 6: Calc.win(key, a[2], true); break;
+              case 8: Calc.win(key, a[2], true); break;
+              case 9: Calc.win(key, a[1], true); break;
+              case 10: Calc.win(key, a[0], true); break;
+            }
           }
           if(call === point) Calc.lose(key);
         }
@@ -186,14 +199,19 @@ var Calc = {};
       var call = Craps.call;
 
       if(bet.amount && bet.working) {
-        if(call === 7 || call === 11) Calc.win(key, bet.amount);
-        if(call === 4) Calc.move(key, 'come4');
-        if(call === 5) Calc.move(key, 'come5');
-        if(call === 6) Calc.move(key, 'come6');
-        if(call === 8) Calc.move(key, 'come8');
-        if(call === 9) Calc.move(key, 'come9');
-        if(call === 10) Calc.move(key, 'come10');
-        if(call === 2 || call === 3 || call === 12) Calc.lose(key);
+        switch(call) {
+          case 2: Calc.lose(key); break;
+          case 3: Calc.lose(key); break;
+          case 4: Calc.move(key, 'come4'); break;
+          case 5: Calc.move(key, 'come5'); break;
+          case 6: Calc.move(key, 'come6'); break;
+          case 7: Calc.win(key, bet.amount); break;
+          case 8: Calc.move(key, 'come8'); break;
+          case 9: Calc.move(key, 'come9'); break;
+          case 10: Calc.move(key, 'come10'); break;
+          case 11: Calc.win(key, bet.amount); break;
+          case 12: Calc.lose(key); break;
+        }
       }
 
     },
@@ -204,15 +222,19 @@ var Calc = {};
       var bet = Table.bet[key];
       var call = Craps.call;
 
-      if(bet.amount && bet.working) {
-        if(call === 2 || call === 3) Calc.win(key, bet.amount); // 12 pushes
-        if(call === 4) Calc.move(key, 'dontcome4');
-        if(call === 5) Calc.move(key, 'dontcome5');
-        if(call === 6) Calc.move(key, 'dontcome6');
-        if(call === 8) Calc.move(key, 'dontcome8');
-        if(call === 9) Calc.move(key, 'dontcome9');
-        if(call === 10) Calc.move(key, 'dontcome10');
-        if(call === 7 || call === 11) Calc.lose(key);
+      if(bet.amount && bet.working) { // 12 pushes
+        switch(call) {
+          case 2: Calc.win(key, bet.amount); break;
+          case 3: Calc.win(key, bet.amount); break;
+          case 4: Calc.move(key, 'dontcome4'); break;
+          case 5: Calc.move(key, 'dontcome5'); break;
+          case 6: Calc.move(key, 'dontcome6'); break;
+          case 7: Calc.lose(key); break;
+          case 8: Calc.move(key, 'dontcome8'); break;
+          case 9: Calc.move(key, 'dontcome9'); break;
+          case 10: Calc.move(key, 'dontcome10'); break;
+          case 11: Calc.lose(key); break;
+        }
       }
 
     },
