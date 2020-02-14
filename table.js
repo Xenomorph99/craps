@@ -1,4 +1,4 @@
-var Table = {};
+let Table = {};
 
 (function($) {
 

@@ -1,4 +1,4 @@
-var Craps = {};
+let Craps = {};
 
 (function($) {
 
@@ -32,7 +32,7 @@ var Craps = {};
       Craps.reset();
 
       // Throw the dice and run the calculations for each roll
-      for (var i = 1; i <= Craps.rolls; i++) Craps.roll(i);
+      for(var i = 1; i <= Craps.rolls; i++) Craps.roll(i);
 
       // Display the results of the test
       Craps.results();
@@ -42,8 +42,8 @@ var Craps = {};
     reset: function() {
 
       // Get the form values
-      var rolls = parseInt($('#rolls').val());
-      var purse = parseFloat($('#purse').val());
+      let rolls = parseInt($('#rolls').val());
+      let purse = parseFloat($('#purse').val());
 
       // Reset the JavaScript object variables
       Craps.rolls = rolls > 0 ? rolls : 0;
@@ -56,7 +56,7 @@ var Craps = {};
       Craps.count = 0;
 
       // Setup the log table columns
-      var string = '<tr>';
+      let string = '<tr>';
       string += '<th>#</th>';
       string += '<th>Run</th>';
       string += '<th>Point</th>';
@@ -123,10 +123,10 @@ var Craps = {};
 
     log: function(i) {
 
-      var dice = Craps.dice[0] + '+' + Craps.dice[1] + '=(' + Craps.call + ')';
-      var point = (Craps.point) ? 'ON(' + Craps.point + ')' : "OFF";
+      let dice = Craps.dice[0] + '+' + Craps.dice[1] + '=(' + Craps.call + ')';
+      let point = (Craps.point) ? 'ON(' + Craps.point + ')' : "OFF";
 
-      var logEntry = '<tr>';
+      let logEntry = '<tr>';
       logEntry += Craps.tableCell(i); // #
       logEntry += Craps.tableCell(Craps.count); // Run
       logEntry += Craps.tableCell(point); // Point
@@ -155,8 +155,8 @@ var Craps = {};
 
     calculate: function(i) {
 
-      var point = Craps.point;
-      var call = Craps.call;
+      let point = Craps.point;
+      let call = Craps.call;
 
       Craps.won = 0;
       Craps.lost = 0;

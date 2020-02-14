@@ -1,4 +1,4 @@
-var Calc = {};
+let Calc = {};
 
 (function($) {
 
@@ -12,7 +12,7 @@ var Calc = {};
 
     run: function(bets, dice, point) { // array of bets e.g. ['passline', 'dontpass']; array of dice e.g. [3,5]
 
-      var q = {};
+      let q = {};
 
       // Build the queue
       if(bets) { // add only specified bets
@@ -91,10 +91,10 @@ var Calc = {};
 
     passline: function() {
 
-      var key = 'passline';
-      var bet = Table.bet[key];
-      var call = Craps.call;
-      var point = Craps.point;
+      let key = 'passline';
+      let bet = Table.bet[key];
+      let call = Craps.call;
+      let point = Craps.point;
 
       if(bet.amount && bet.working) {
         if(point) {
@@ -115,11 +115,11 @@ var Calc = {};
 
     passlineodds: function() {
 
-      var key = 'passlineodds';
-      var bet = Table.bet[key];
-      var call = Craps.call;
-      var point = Craps.point;
-      var a = [];
+      let key = 'passlineodds';
+      let bet = Table.bet[key];
+      let call = Craps.call;
+      let point = Craps.point;
+      let a = [];
 
       a.push(Math.floor(bet.amount * (2/1))); // 4, 10
       a.push(Math.floor(bet.amount * (3/2))); // 5, 9
@@ -145,10 +145,10 @@ var Calc = {};
 
     dontpass: function() {
 
-      var key = 'dontpass';
-      var bet = Table.bet[key];
-      var call = Craps.call;
-      var point = Craps.point;
+      let key = 'dontpass';
+      let bet = Table.bet[key];
+      let call = Craps.call;
+      let point = Craps.point;
 
       if(bet.amount && bet.working) {
         if(point) {
@@ -168,11 +168,11 @@ var Calc = {};
 
     dontpassodds: function() {
 
-      var key = 'dontpassodds';
-      var bet = Table.bet[key];
-      var call = Craps.call;
-      var point = Craps.point;
-      var a = [];
+      let key = 'dontpassodds';
+      let bet = Table.bet[key];
+      let call = Craps.call;
+      let point = Craps.point;
+      let a = [];
 
       a.push(Math.floor(bet.amount * (1/2))); // 4, 10
       a.push(Math.floor(bet.amount * (2/3))); // 5, 9
@@ -198,9 +198,9 @@ var Calc = {};
 
     newcome: function() {
 
-      var key = 'newcome';
-      var bet = Table.bet[key];
-      var call = Craps.call;
+      let key = 'newcome';
+      let bet = Table.bet[key];
+      let call = Craps.call;
 
       if(bet.amount && bet.working) {
         switch(call) {
@@ -222,9 +222,9 @@ var Calc = {};
 
     newdontcome: function() {
 
-      var key = 'newdontcome';
-      var bet = Table.bet[key];
-      var call = Craps.call;
+      let key = 'newdontcome';
+      let bet = Table.bet[key];
+      let call = Craps.call;
 
       if(bet.amount && bet.working) { // 12 pushes
         switch(call) {
@@ -245,11 +245,11 @@ var Calc = {};
 
     place: function(key, num) {
 
-      var bet = Table.bet[key];
-      var call = Craps.call;
-      var point = Craps.point;
-      var ref = { 4:0, 5:1, 6:2, 8:2, 9:1, 10:0 };
-      var calc = [];
+      let bet = Table.bet[key];
+      let call = Craps.call;
+      let point = Craps.point;
+      let ref = { 4:0, 5:1, 6:2, 8:2, 9:1, 10:0 };
+      let calc = [];
 
       calc.push(Math.floor(bet.amount * (9/5))); // 4, 10
       calc.push(Math.floor(bet.amount * (7/5))); // 5, 9
@@ -305,11 +305,11 @@ var Calc = {};
 
     buy: function(key, num) {
 
-      var bet = Table.bet[key];
-      var call = Craps.call;
-      var point = Craps.point;
-      var ref = { 4:0, 5:1, 6:2, 8:2, 9:1, 10:0 };
-      var calc = [];
+      let bet = Table.bet[key];
+      let call = Craps.call;
+      let point = Craps.point;
+      let ref = { 4:0, 5:1, 6:2, 8:2, 9:1, 10:0 };
+      let calc = [];
 
       calc.push(Math.ceil((bet.amount * (2/1)) - (bet.amount * 0.05))); // 4, 10
       calc.push(Math.ceil((bet.amount * (3/2)) - (bet.amount * 0.05))); // 5, 9
@@ -365,10 +365,10 @@ var Calc = {};
 
     come: function(key, num) {
 
-      var bet = Table.bet[key];
-      var call = Craps.call;
-      var point = Craps.point;
-      var ref = [ 4, 5, 6, 8, 9, 10 ];
+      let bet = Table.bet[key];
+      let call = Craps.call;
+      let point = Craps.point;
+      let ref = [ 4, 5, 6, 8, 9, 10 ];
 
       if(bet.amount && ref.includes(num)) {
         if(point) { // ON
@@ -420,11 +420,11 @@ var Calc = {};
 
     comeodds: function(key, num) {
 
-      var bet = Table.bet[key];
-      var call = Craps.call;
-      var point = Craps.point;
-      var ref = { 4:0, 5:1, 6:2, 8:2, 9:1, 10:0 };
-      var calc = [];
+      let bet = Table.bet[key];
+      let call = Craps.call;
+      let point = Craps.point;
+      let ref = { 4:0, 5:1, 6:2, 8:2, 9:1, 10:0 };
+      let calc = [];
 
       calc.push(Math.floor(bet.amount * (2/1))); // 4, 10
       calc.push(Math.floor(bet.amount * (3/2))); // 5, 9
@@ -480,11 +480,11 @@ var Calc = {};
 
     lay: function(key, num) {
 
-      var bet = Table.bet[key];
-      var call = Craps.call;
-      var point = Craps.point;
-      var ref = { 4:0, 5:1, 6:2, 8:2, 9:1, 10:0 };
-      var calc = [];
+      let bet = Table.bet[key];
+      let call = Craps.call;
+      let point = Craps.point;
+      let ref = { 4:0, 5:1, 6:2, 8:2, 9:1, 10:0 };
+      let calc = [];
 
       calc.push(Math.ceil((bet.amount * (1/2)) - (bet.amount * 0.05))); // 4, 10
       calc.push(Math.ceil((bet.amount * (2/3)) - (bet.amount * 0.05))); // 5, 9
