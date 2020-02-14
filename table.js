@@ -78,34 +78,27 @@ let Table = {};
 
     init: function () {
 
-      //console.log(Table.bet);
       Table.refresh();
 
     },
 
-    refresh: function() {
+    refresh: function(array) { // array of bets e.g. ['passline', 'dontpass'];
 
-      for(key in Table.bet) {
-        $('#bet-' + key).text(Table.bet[key].amount);
+      let bets = {};
+
+      // Refresh all bets unless specific ones are listed
+      if(array) {
+        for(bet in array) {
+          bets[array[bet]] = Table.bet[array[bet]];
+        }
+      } else {
+        bets = Table.bet;
       }
 
-    },
-
-    placeBet: function(array) {
-
-      // cycle through the array [name, amount]
-      // 1. remove amount from purse
-      // 2. add amount to the bet object
-      // 3. display the bet on the HTML table
-
-    },
-
-    takeDownBet: function(array) {
-
-      // cycle through the array [name, amount]
-      // 1. add amount to the purse
-      // 2. remove the amount from the bet object
-      // 3. remove the bet from the HTML table
+      // Update the HTML table
+      for(key in bets) {
+        $('#bet-' + key).text(Table.bet[key].amount);
+      }
 
     },
 
@@ -238,7 +231,31 @@ let Table = {};
       //
       // }
 
-    }
+    },
+
+    addBets: function(array) { // associative array of bets and amounts e.g. {passline: 100}
+
+      if(array) {
+        for(bet in array) {
+          Craps.purse.amount -= array[bet]; // Take from purse
+          Table.bet[bet].amount += array[bet]; // Add to table
+          Table.refresh(Array(bet)); // Refresh HTML
+        }
+      }
+
+    },
+
+    removeBets: function(array) { // array of bets e.g. ['passline', 'dontpass'];
+
+      if(array) {
+        for(var i = 0; i < array.length; i++) {
+          Craps.purse.amount += Table.bet[array[i]].amount; // Add to purse
+          Table.bet[array[i]].amount = 0; // Remove from table
+          Table.refresh(Array(array[i])); // Refresh HTML
+        }
+      }
+
+    },
 
   };
 
