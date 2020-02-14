@@ -233,13 +233,25 @@ let Table = {};
 
     },
 
-    addBets: function(array) { // associative array of bets and amounts e.g. {passline: 100}
+    addBets: function(array) { // associative array of bets and amounts e.g. {passline: 100, field: 200}
 
       if(array) {
         for(bet in array) {
           Craps.purse.amount -= array[bet]; // Take from purse
           Table.bet[bet].amount += array[bet]; // Add to table
-          Table.refresh(Array(bet)); // Refresh HTML
+          Table.refresh([bet]); // Refresh HTML
+        }
+      }
+
+    },
+
+    moveBets: function(array) { // array of bet and destination pairings [['hard4','hard6'], ['passline','field']]
+
+      if(array) {
+        for(var i = 0; i < array.length; i++) {
+          Table.bet[array[i][1]].amount += Table.bet[array[i][0]].amount;
+          Table.bet[array[i][0]].amount = 0;
+          Table.refresh([array[i][0], array[i][1]]);
         }
       }
 
@@ -251,11 +263,37 @@ let Table = {};
         for(var i = 0; i < array.length; i++) {
           Craps.purse.amount += Table.bet[array[i]].amount; // Add to purse
           Table.bet[array[i]].amount = 0; // Remove from table
-          Table.refresh(Array(array[i])); // Refresh HTML
+          Table.refresh([array[i]]); // Refresh HTML
         }
       }
 
     },
+
+    betsOn: function(array) { // array of bets e.g. ['passline', 'dontpass'];
+
+      if(array) {
+        for(var i = 0; i < array.length; i++) {
+          Table.bet[array[i]].working = 1;
+        }
+      }
+
+    },
+
+    betsOff: function(array) { // array of bets e.g. ['passline', 'dontpass'];
+
+      if(array) {
+        for(var i = 0; i < array.length; i++) {
+          Table.bet[array[i]].working = 0;
+        }
+      }
+
+    },
+
+    hasBet: function(bet) {
+
+      return (bet && Table.bet[bet].amount) ? true : false;
+
+    }
 
   };
 

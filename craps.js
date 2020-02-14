@@ -89,6 +89,10 @@ let Craps = {};
 
     throwDice: function() {
 
+      // Clear the winnings and losses tally
+      Craps.won = 0;
+      Craps.lost = 0;
+
       // Read the numbers on the dice
       for(var i = 0; i < 2; i++) {
         Craps.dice[i] = Math.floor(Math.random() * (Math.floor(6) - Math.ceil(1) + 1)) + Math.ceil(1);

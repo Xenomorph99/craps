@@ -47,15 +47,12 @@ let Dealer = {};
     pay: function(key, amount, takedown) {
 
       if(key) {
-
         if(amount) {
+          // console.log('you WIN $' + amount);
           Craps.purse.amount += amount;
           Craps.won += amount;
-          // console.log('you WIN $' + amount);
         }
-
         if(takedown) Dealer.takedown(key);
-
       }
 
     },
@@ -63,29 +60,23 @@ let Dealer = {};
     take: function(key) {
 
       if(key) {
-
-        // Table.bet[key].amount = 0;
-        Craps.lost += Table.bet[key].amount;
         // console.log('you LOSE $' + Table.bet[key].amount);
-
+        Table.bet[key].amount = 0;
+        Craps.lost += Table.bet[key].amount;
       }
 
     },
 
     move: function(key, destination) {
 
-      if(key && destination) {
-        // Table.bet[destination].amount = Table.bet[key].amount;
-        // Table.bet[key].amount = 0;
-      }
+      if(key && destination) Table.moveBets([[key, destination]]);
 
     },
 
     takedown: function(key) {
 
       // console.log('take down $' + Table.bet[key].amount);
-      // Craps.purse.amount += Table.bet[key].amount;
-      // Table.bet[key].amount = 0;
+      if(key) Table.removeBets([key]);
 
     },
 

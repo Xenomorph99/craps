@@ -11,12 +11,18 @@ let Strategy = {};
     run: function() {
 
       let shot = Craps.shot;
+      let bets = {};
 
       if(!shot) { // come out roll
 
         console.log('Strategy: no shot');
         // make $10 passline bet
         // make $10 dontpass bet
+        
+        if(!Table.hasBet('passline')) bets.passline = 10;
+        if(!Table.hasBet('dontpass')) bets.dontpass = 10;
+
+        Table.addBets(bets);
 
       } else {
         switch(shot) {
