@@ -72,7 +72,7 @@ const Craps = {
   roll: function(i) {
 
     // Place the bets on the table
-    Strategy.run();
+    Strategy.play();
 
     // Shooter throws the dice, stickman makes the call
     Craps.throwDice();

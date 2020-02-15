@@ -110,7 +110,8 @@ const Table = {
       'buy4', 'buy5', 'buy6', 'buy8', 'buy9', 'buy10',
       'comeodds4', 'comeodds5', 'comeodds6', 'comeodds8', 'comeodds9', 'comeodds10',
       'lay4', 'lay5', 'lay6', 'lay8', 'lay9', 'lay10',
-      'dontcomeodds4', 'dontcomeodds5', 'dontcomeodds6', 'dontcomeodds8', 'dontcomeodds9', 'dontcomeodds10'
+      'dontcomeodds4', 'dontcomeodds5', 'dontcomeodds6', 'dontcomeodds8', 'dontcomeodds9', 'dontcomeodds10',
+      'hard4', 'hard6', 'hard8', 'hard10'
     ];
 
     if(point) { // ON
@@ -137,12 +138,12 @@ const Table = {
 
   },
 
-  addBets: function(array) { // associative array of bets and amounts e.g. {passline: 100, field: 200}
+  addBets: function(obj) { // object containing bets and amounts e.g. {passline: 100, field: 200}
 
-    if(array) {
-      for(bet in array) {
-        Craps.purse.amount -= array[bet]; // Take from purse
-        Table.bet[bet].amount += array[bet]; // Add to table
+    if(obj) {
+      for(bet in obj) {
+        Craps.purse.amount -= obj[bet]; // Take from purse
+        Table.bet[bet].amount += obj[bet]; // Add to table
         Table.refresh([bet]); // Refresh HTML
       }
     }
