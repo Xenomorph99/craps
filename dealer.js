@@ -32,7 +32,7 @@ const Dealer = {
     // console.log(q);
     // console.log('the roll is a ' + Craps.call + ' (' + Craps.dice[0] + '+' + Craps.dice[1] + ')');
 
-    // Run calculations
+    // Run calculations for each bet in the queue
     for(bet in q) {
       //console.log('$' + q[bet].amount + ' ' + bet + ' bet calculating...');
       Dealer[bet]();
@@ -44,7 +44,7 @@ const Dealer = {
 
     if(key) {
       if(amount) {
-        // console.log('you WIN $' + amount);
+        console.log('you WIN $' + amount);
         Craps.purse.amount += amount;
         Craps.won += amount;
       }
@@ -56,22 +56,23 @@ const Dealer = {
   take: function(key) {
 
     if(key) {
-      // console.log('you LOSE $' + Table.bet[key].amount);
-      Table.bet[key].amount = 0;
+      console.log('you LOSE $' + Table.bet[key].amount);
       Craps.lost += Table.bet[key].amount;
+      Table.bet[key].amount = 0;
     }
 
   },
 
   move: function(key, destination) {
 
+    console.log('move ' + key + ' --> ' + destination);
     if(key && destination) Table.moveBets([[key, destination]]);
 
   },
 
   takedown: function(key) {
 
-    // console.log('take down $' + Table.bet[key].amount);
+    console.log('take down $' + Table.bet[key].amount);
     if(key) Table.removeBets([key]);
 
   },

@@ -84,9 +84,10 @@ const Table = {
 
     // Refresh all bets unless specific ones are listed
     if(array) {
-      for(bet in array) {
-        bets[array[bet]] = Table.bet[array[bet]];
+      for(let bet of array) {
+        bets[bet] = Table.bet[bet];
       }
+      console.log(bets);
     } else {
       bets = Table.bet;
     }
@@ -117,6 +118,8 @@ const Table = {
     if(point) { // ON
 
       if(call === 7 || call === point) { // 7 out or hit the point
+        document.getElementById('puck-' + point).innerHTML = '';
+        document.getElementById('puck-off').innerHTML = '<b>OFF</b>';
         Craps.point = 0;
         Craps.shotCount = 0;
         Table.betsOff(bets);
@@ -127,6 +130,8 @@ const Table = {
     } else { // OFF
 
       if(call === 4 || call === 5 || call === 6 || call === 8 || call === 9 || call === 10) {
+        document.getElementById('puck-off').innerHTML = '';
+        document.getElementById('puck-' + call).innerHTML = '<b>ON</b>';
         Craps.point = call;
         if(!offExclude) Craps.shotCount++;
         Table.betsOn(bets);
@@ -152,7 +157,7 @@ const Table = {
 
   moveBets: function(array) { // array of bet and destination pairings [['hard4','hard6'], ['passline','field']]
 
-    if(array) {
+    if(array.length) {
       for(let pair of array) {
         Table.bet[pair[1]].amount += Table.bet[pair[0]].amount;
         Table.bet[pair[0]].amount = 0;
@@ -164,7 +169,7 @@ const Table = {
 
   removeBets: function(array) { // array of bets e.g. ['passline', 'dontpass'];
 
-    if(array) {
+    if(array.length) {
       for(let bet of array) {
         Craps.purse.amount += Table.bet[bet].amount; // Add to purse
         Table.bet[bet].amount = 0; // Remove from table
@@ -176,7 +181,7 @@ const Table = {
 
   betsOn: function(array) { // array of bets e.g. ['passline', 'dontpass'];
 
-    if(array) {
+    if(array.length) {
       for(let bet of array) {
         Table.bet[bet].working = 1;
       }

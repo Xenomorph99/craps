@@ -19,8 +19,12 @@ const Craps = {
 
   init: function() {
 
-    document.getElementById('run-button').addEventListener('click', this.run);
+    Table.init();
+    Dealer.init();
     Strategy.init();
+
+    document.getElementById('run-button').addEventListener('click', this.run);
+    document.getElementById('increment-button').addEventListener('click', this.increment);
 
   },
 
@@ -33,6 +37,15 @@ const Craps = {
     for(var i = 1; i <= Craps.rolls; i++) Craps.roll(i);
 
     // Display the results of the simulation
+    Craps.results();
+
+  },
+
+  increment: function() {
+
+    if(Craps.rolls === 0) Craps.reset();
+
+    Craps.roll(0);
     Craps.results();
 
   },
