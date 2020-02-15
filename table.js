@@ -63,18 +63,18 @@ const Table = {
     hard8: { amount: 0, working: 0, count: 0 },
     hard10: { amount: 0, working: 0, count: 0 },
 
-    craps: { amount: 0, working: 0, count: 0 },
-    yo11: { amount: 0, working: 0, count: 0 },
+    craps: { amount: 0, working: 1, count: 0 },
+    yo11: { amount: 0, working: 1, count: 0 },
 
-    field: { amount: 0, working: 0, count: 0 },
-    big6: { amount: 0, working: 0, count: 0 },
-    big8: { amount: 0, working: 0, count: 0 },
+    field: { amount: 0, working: 1, count: 0 },
+    big6: { amount: 0, working: 1, count: 0 },
+    big8: { amount: 0, working: 1, count: 0 },
 
   },
 
   init: function () {
 
-    Table.refresh();
+    Table.movePuck();
 
   },
 
@@ -95,6 +95,11 @@ const Table = {
     // Update the HTML table
     for(key in bets) {
       document.getElementById('bet-' + key).innerHTML = Table.bet[key].amount;
+      if(Table.bet[key].working) {
+        document.getElementById('bet-' + key).parentElement.classList.add('working');
+      } else {
+        document.getElementById('bet-' + key).parentElement.classList.remove('working');
+      }
     }
 
   },
@@ -184,6 +189,7 @@ const Table = {
     if(array.length) {
       for(let bet of array) {
         Table.bet[bet].working = 1;
+        Table.refresh([bet]);
       }
     }
 
@@ -194,6 +200,7 @@ const Table = {
     if(array) {
       for(let bet of array) {
         Table.bet[bet].working = 0;
+        Table.refresh([bet]);
       }
     }
 

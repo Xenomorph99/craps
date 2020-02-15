@@ -80,6 +80,8 @@ const Craps = {
     // Clear the log table
     document.getElementById('log-table').innerHTML = string;
 
+    Table.movePuck();
+
   },
 
   roll: function(i) {

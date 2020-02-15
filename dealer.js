@@ -59,6 +59,7 @@ const Dealer = {
       console.log('you LOSE $' + Table.bet[key].amount);
       Craps.lost += Table.bet[key].amount;
       Table.bet[key].amount = 0;
+      Table.removeBets([key]);
     }
 
   },
