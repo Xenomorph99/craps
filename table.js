@@ -1,4 +1,4 @@
-let Table = {
+const Table = {
 
   bet: {
 
@@ -93,7 +93,6 @@ let Table = {
 
     // Update the HTML table
     for(key in bets) {
-      console.log('bet-' + key);
       document.getElementById('bet-' + key).innerHTML = Table.bet[key].amount;
     }
 
@@ -101,132 +100,40 @@ let Table = {
 
   movePuck: function() {
 
-    Table.refresh();
+    let call = Craps.call;
+    let point = Craps.point;
+    let onExclude = Craps.shotCountExclude.on.includes(call);
+    let offExclude = Craps.shotCountExclude.off.includes(call);
+    let bets = [
+      'passlineodds', 'dontpassodds', 'newcome', 'newdontcome',
+      'place4', 'place5', 'place6', 'place8', 'place9', 'place10',
+      'buy4', 'buy5', 'buy6', 'buy8', 'buy9', 'buy10',
+      'comeodds4', 'comeodds5', 'comeodds6', 'comeodds8', 'comeodds9', 'comeodds10',
+      'lay4', 'lay5', 'lay6', 'lay8', 'lay9', 'lay10',
+      'dontcomeodds4', 'dontcomeodds5', 'dontcomeodds6', 'dontcomeodds8', 'dontcomeodds9', 'dontcomeodds10'
+    ];
 
-    // if(Craps.point) { // if the point is established (ON)
-    //
-    //   if(Craps.call === 7 || Craps.call === Craps.point) { // seven out or hit the point
-    //
-    //     // [
-    //     //   'newcome',
-    //     //   'passlineodds',
-    //     //   'dontpassodds',
-    //     //   'newdontcome',
-    //     //   'place4',
-    //     //   'place5',
-    //     //   'place6',
-    //     //   'place8',
-    //     //   'place9',
-    //     //   'place10',
-    //     //   'buy4',
-    //     //   'buy5',
-    //     //   'buy6',
-    //     //   'buy8',
-    //     //   'buy9',
-    //     //   'buy10',
-    //     //   'lay4',
-    //     //   'lay5',
-    //     //   'lay6',
-    //     //   'lay8',
-    //     //   'lay9',
-    //     //   'lay10',
-    //     //   'odds4',
-    //     //   'odds5',
-    //     //   'odds6',
-    //     //   'odds8',
-    //     //   'odds9',
-    //     //   'odds10',
-    //     //   'dontcome4',
-    //     //   'dontcome5',
-    //     //   'dontcome6',
-    //     //   'dontcome8',
-    //     //   'dontcome9',
-    //     //   'dontcome10',
-    //     //   'dontcomeodds4',
-    //     //   'dontcomeodds5',
-    //     //   'dontcomeodds6',
-    //     //   'dontcomeodds8',
-    //     //   'dontcomeodds9',
-    //     //   'dontcomeodds10',
-    //     //   'hard4',
-    //     //   'hard6',
-    //     //   'hard8',
-    //     //   'hard10',
-    //     // ]
-    //
-    //     Craps.point = 0;
-    //     Craps.count = 0;
-    //
-    //
-    //
-    //   } else if(Craps.call !== 2 && Craps.call !== 3 && Craps.call !== 11) {
-    //
-    //     Craps.count += 1 // count the rolls between 7's
-    //
-    //   }
-    //
-    // } else { // if the point is not estableshed (OFF)
-    //
-    //   if(Craps.call === 4 || Craps.call === 5 || Craps.call === 6 || Craps.call === 8 || Craps.call === 9 || Craps.call === 10) { // establish point
-    //
-    //     Craps.point = Craps.call;
-    //     Craps.count += 1; // count the rolls between 7's
-    //
-    //     // // Turn on bets
-    //     // Craps.bet.newCome.working = 1;
-    //     // Craps.bet.passLineOdds.working = 1;
-    //     // Craps.bet.dontPassOdds.working = 1;
-    //     // Craps.bet.newDontCome.working = 1;
-    //     //
-    //     // // Turn on place bets
-    //     // Craps.bet.place.four.working = 1;
-    //     // Craps.bet.place.five.working = 1;
-    //     // Craps.bet.place.six.working = 1;
-    //     // Craps.bet.place.eight.working = 1;
-    //     // Craps.bet.place.nine.working = 1;
-    //     // Craps.bet.place.ten.working = 1;
-    //     //
-    //     // // Turn on buy bets
-    //     // Craps.bet.buy.four.working = 1;
-    //     // Craps.bet.buy.five.working = 1;
-    //     // Craps.bet.buy.six.working = 1;
-    //     // Craps.bet.buy.eight.working = 1;
-    //     // Craps.bet.buy.nine.working = 1;
-    //     // Craps.bet.buy.ten.working = 1;
-    //     //
-    //     // // Turn on lay bets
-    //     // Craps.bet.lay.four.working = 1;
-    //     // Craps.bet.lay.five.working = 1;
-    //     // Craps.bet.lay.six.working = 1;
-    //     // Craps.bet.lay.eight.working = 1;
-    //     // Craps.bet.lay.nine.working = 1;
-    //     // Craps.bet.lay.ten.working = 1;
-    //     //
-    //     // // Turn on odds bets
-    //     // Craps.bet.odds.four.working = 1;
-    //     // Craps.bet.odds.five.working = 1;
-    //     // Craps.bet.odds.six.working = 1;
-    //     // Craps.bet.odds.eight.working = 1;
-    //     // Craps.bet.odds.nine.working = 1;
-    //     // Craps.bet.odds.ten.working = 1;
-    //     //
-    //     // // Turn on don't come bets
-    //     // Craps.bet.dontCome.four.working = 1;
-    //     // Craps.bet.dontCome.five.working = 1;
-    //     // Craps.bet.dontCome.six.working = 1;
-    //     // Craps.bet.dontCome.eight.working = 1;
-    //     // Craps.bet.dontCome.nine.working = 1;
-    //     // Craps.bet.dontCome.ten.working = 1;
-    //     //
-    //     // // Turn on hard bets
-    //     // Craps.bet.hard.four.working = 1;
-    //     // Craps.bet.hard.six.working = 1;
-    //     // Craps.bet.hard.eight.working = 1;
-    //     // Craps.bet.hard.ten.working = 1;
-    //
-    //   }
-    //
-    // }
+    if(point) { // ON
+
+      if(call === 7 || call === point) { // 7 out or hit the point
+        Craps.point = 0;
+        Craps.shotCount = 0;
+        Table.betsOff(bets);
+      } else {
+        if(!onExclude) Craps.shotCount++;
+      }
+
+    } else { // OFF
+
+      if(call === 4 || call === 5 || call === 6 || call === 8 || call === 9 || call === 10) {
+        Craps.point = call;
+        if(!offExclude) Craps.shotCount++;
+        Table.betsOn(bets);
+      }
+
+    }
+
+    Table.refresh();
 
   },
 
@@ -245,10 +152,10 @@ let Table = {
   moveBets: function(array) { // array of bet and destination pairings [['hard4','hard6'], ['passline','field']]
 
     if(array) {
-      for(var i = 0; i < array.length; i++) {
-        Table.bet[array[i][1]].amount += Table.bet[array[i][0]].amount;
-        Table.bet[array[i][0]].amount = 0;
-        Table.refresh([array[i][0], array[i][1]]);
+      for(let pair of array) {
+        Table.bet[pair[1]].amount += Table.bet[pair[0]].amount;
+        Table.bet[pair[0]].amount = 0;
+        Table.refresh([pair[0], pair[1]]);
       }
     }
 
@@ -257,10 +164,10 @@ let Table = {
   removeBets: function(array) { // array of bets e.g. ['passline', 'dontpass'];
 
     if(array) {
-      for(var i = 0; i < array.length; i++) {
-        Craps.purse.amount += Table.bet[array[i]].amount; // Add to purse
-        Table.bet[array[i]].amount = 0; // Remove from table
-        Table.refresh([array[i]]); // Refresh HTML
+      for(let bet of array) {
+        Craps.purse.amount += Table.bet[bet].amount; // Add to purse
+        Table.bet[bet].amount = 0; // Remove from table
+        Table.refresh([bet]); // Refresh HTML
       }
     }
 
@@ -269,8 +176,8 @@ let Table = {
   betsOn: function(array) { // array of bets e.g. ['passline', 'dontpass'];
 
     if(array) {
-      for(var i = 0; i < array.length; i++) {
-        Table.bet[array[i]].working = 1;
+      for(let bet of array) {
+        Table.bet[bet].working = 1;
       }
     }
 
@@ -279,8 +186,8 @@ let Table = {
   betsOff: function(array) { // array of bets e.g. ['passline', 'dontpass'];
 
     if(array) {
-      for(var i = 0; i < array.length; i++) {
-        Table.bet[array[i]].working = 0;
+      for(let bet of array) {
+        Table.bet[bet].working = 0;
       }
     }
 

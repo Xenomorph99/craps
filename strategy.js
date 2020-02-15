@@ -2,13 +2,13 @@ let Strategy = {
 
   init: function() {
 
-    // Do nothing
-    
+    Craps.shotCountExclude.on = [2, 3, 11];
+
   },
 
   run: function() {
 
-    let shot = Craps.shot;
+    let shot = Craps.shotCount;
     let bets = {};
 
     if(!shot) { // come out roll

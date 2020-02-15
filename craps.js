@@ -1,10 +1,14 @@
-let Craps = {
+const Craps = {
 
   rolls: 0, // number of rolls to execute in the simulator
   dice: [0,0], // values of the two dice
   call: 0, // the two dice added together
   point: 0, // the point where the ON puck sits, 0 indicates OFF
-  shot: 0, // the number of rolls between the puck turning ON and a 7 being rolled
+  shotCount: 0, // the number of rolls between the puck turning ON and a 7 being rolled
+  shotCountExclude: {
+    on: [], // array of calls to not count when point is OFF e.g. [2,3,11]
+    off: [] // array of calls to not count when point is ON e.g. [2,3,11,12]
+  },
   purse: {
     start: 0, // the dollar amount entered at the beginning on the simulation
     amount: 0 // the running total of money not on the table
@@ -16,6 +20,7 @@ let Craps = {
   init: function() {
 
     document.getElementById('run-button').addEventListener('click', this.run);
+    Strategy.init();
 
   },
 
@@ -46,7 +51,7 @@ let Craps = {
     Craps.purse.start = purse > 0 ? purse : 0;
     Craps.purse.amount = purse > 0 ? purse : 0;
     Craps.point = 0;
-    Craps.shot = 0;
+    Craps.shotCount = 0;
 
     // Setup the log table columns
     let string = '<tr>';
@@ -106,7 +111,7 @@ let Craps = {
 
     let logEntry = '<tr>';
     logEntry += '<td>' + i + '</td>'; // #
-    logEntry += '<td>' + Craps.shot + '</td>'; // Run
+    logEntry += '<td>' + Craps.shotCount + '</td>'; // Run
     logEntry += '<td>' + point + '</td>'; // Point
     logEntry += '<td>' + dice + '</td>'; // Dice
     logEntry += '<td>' + Craps.won + '</td>'; // Winnings

@@ -1,4 +1,4 @@
-let Dealer = {
+const Dealer = {
 
   init: function() {
 
@@ -30,7 +30,7 @@ let Dealer = {
     if(point) Craps.point = point;
 
     // console.log(q);
-    console.log('the roll is a ' + Craps.call + ' (' + Craps.dice[0] + '+' + Craps.dice[1] + ')');
+    // console.log('the roll is a ' + Craps.call + ' (' + Craps.dice[0] + '+' + Craps.dice[1] + ')');
 
     // Run calculations
     for(bet in q) {
