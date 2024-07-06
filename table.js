@@ -1,111 +1,94 @@
 const Table = {
-
   bet: {
-
     passline: { amount: 0, working: 1, count: 0 },
     passlineodds: { amount: 0, working: 0, count: 0 },
     dontpass: { amount: 0, working: 1, count: 0 },
     dontpassodds: { amount: 0, working: 0, count: 0 },
     newcome: { amount: 0, working: 0, count: 0 },
     newdontcome: { amount: 0, working: 0, count: 0 },
-
     place4: { amount: 0, working: 0, count: 0 },
     place5: { amount: 0, working: 0, count: 0 },
     place6: { amount: 0, working: 0, count: 0 },
     place8: { amount: 0, working: 0, count: 0 },
     place9: { amount: 0, working: 0, count: 0 },
     place10: { amount: 0, working: 0, count: 0 },
-
     buy4: { amount: 0, working: 0, count: 0 },
     buy5: { amount: 0, working: 0, count: 0 },
     buy6: { amount: 0, working: 0, count: 0 },
     buy8: { amount: 0, working: 0, count: 0 },
     buy9: { amount: 0, working: 0, count: 0 },
     buy10: { amount: 0, working: 0, count: 0 },
-
     come4: { amount: 0, working: 1, count: 0 },
     come5: { amount: 0, working: 1, count: 0 },
     come6: { amount: 0, working: 1, count: 0 },
     come8: { amount: 0, working: 1, count: 0 },
     come9: { amount: 0, working: 1, count: 0 },
     come10: { amount: 0, working: 1, count: 0 },
-
     comeodds4: { amount: 0, working: 0, count: 0 },
     comeodds5: { amount: 0, working: 0, count: 0 },
     comeodds6: { amount: 0, working: 0, count: 0 },
     comeodds8: { amount: 0, working: 0, count: 0 },
     comeodds9: { amount: 0, working: 0, count: 0 },
     comeodds10: { amount: 0, working: 0, count: 0 },
-
     lay4: { amount: 0, working: 0, count: 0 },
     lay5: { amount: 0, working: 0, count: 0 },
     lay6: { amount: 0, working: 0, count: 0 },
     lay8: { amount: 0, working: 0, count: 0 },
     lay9: { amount: 0, working: 0, count: 0 },
     lay10: { amount: 0, working: 0, count: 0 },
-
     dontcome4: { amount: 0, working: 1, count: 0 },
     dontcome5: { amount: 0, working: 1, count: 0 },
     dontcome6: { amount: 0, working: 1, count: 0 },
     dontcome8: { amount: 0, working: 1, count: 0 },
     dontcome9: { amount: 0, working: 1, count: 0 },
     dontcome10: { amount: 0, working: 1, count: 0 },
-
     dontcomeodds4: { amount: 0, working: 0, count: 0 },
     dontcomeodds5: { amount: 0, working: 0, count: 0 },
     dontcomeodds6: { amount: 0, working: 0, count: 0 },
     dontcomeodds8: { amount: 0, working: 0, count: 0 },
     dontcomeodds9: { amount: 0, working: 0, count: 0 },
     dontcomeodds10: { amount: 0, working: 0, count: 0 },
-
     hard4: { amount: 0, working: 0, count: 0 },
     hard6: { amount: 0, working: 0, count: 0 },
     hard8: { amount: 0, working: 0, count: 0 },
     hard10: { amount: 0, working: 0, count: 0 },
-
     craps: { amount: 0, working: 1, count: 0 },
     yo11: { amount: 0, working: 1, count: 0 },
-
     field: { amount: 0, working: 1, count: 0 },
     big6: { amount: 0, working: 1, count: 0 },
     big8: { amount: 0, working: 1, count: 0 },
-
   },
 
-  init: function () {
-
+  init: function() {
     Table.movePuck();
-
   },
 
-  refresh: function(array) { // array of bets e.g. ['passline', 'dontpass'];
+  refresh: function(array) {
+    let bets = array ? Table.buildBetObject(array) : Table.bet;
+    Table.updateHTML(bets);
+  },
 
+  buildBetObject: function(array) {
     let bets = {};
-
-    // Refresh all bets unless specific ones are listed
-    if(array) {
-      for(let bet of array) {
-        bets[bet] = Table.bet[bet];
-      }
-      console.log(bets);
-    } else {
-      bets = Table.bet;
+    for (let bet of array) {
+      bets[bet] = Table.bet[bet];
     }
+    return bets;
+  },
 
-    // Update the HTML table
-    for(key in bets) {
-      document.getElementById('bet-' + key).innerHTML = Table.bet[key].amount;
-      if(Table.bet[key].working) {
-        document.getElementById('bet-' + key).parentElement.classList.add('working');
+  updateHTML: function(bets) {
+    for (let key in bets) {
+      let element = document.getElementById('bet-' + key);
+      element.innerHTML = Table.bet[key].amount;
+      if (Table.bet[key].working) {
+        element.parentElement.classList.add('working');
       } else {
-        document.getElementById('bet-' + key).parentElement.classList.remove('working');
+        element.parentElement.classList.remove('working');
       }
     }
-
   },
 
   movePuck: function() {
-
     let call = Craps.call;
     let point = Craps.point;
     let onExclude = Craps.shotCountExclude.on.includes(call);
@@ -120,96 +103,86 @@ const Table = {
       'hard4', 'hard6', 'hard8', 'hard10'
     ];
 
-    if(point) { // ON
-
-      if(call === 7 || call === point) { // 7 out or hit the point
-        document.getElementById('puck-' + point).innerHTML = '';
-        document.getElementById('puck-off').innerHTML = '<b>OFF</b>';
+    if (point) { // ON
+      if (call === 7 || call === point) {
+        Table.updatePuckDisplay(point, 'off');
         Craps.point = 0;
         Craps.shotCount = 0;
         Table.betsOff(bets);
-      } else {
-        if(!onExclude) Craps.shotCount++;
+      } else if (!onExclude) {
+        Craps.shotCount++;
       }
-
     } else { // OFF
-
-      if(call === 4 || call === 5 || call === 6 || call === 8 || call === 9 || call === 10) {
-        document.getElementById('puck-off').innerHTML = '';
-        document.getElementById('puck-' + call).innerHTML = '<b>ON</b>';
+      if ([4, 5, 6, 8, 9, 10].includes(call)) {
+        Table.updatePuckDisplay(call, 'on');
         Craps.point = call;
-        if(!offExclude) Craps.shotCount++;
+        if (!offExclude) Craps.shotCount++;
         Table.betsOn(bets);
       }
-
     }
 
     Table.refresh();
-
   },
 
-  addBets: function(obj) { // object containing bets and amounts e.g. {passline: 100, field: 200}
+  updatePuckDisplay: function(point, state) {
+    if (state === 'off') {
+      document.getElementById('puck-' + point).innerHTML = '';
+      document.getElementById('puck-off').innerHTML = '<b>OFF</b>';
+    } else if (state === 'on') {
+      document.getElementById('puck-off').innerHTML = '';
+      document.getElementById('puck-' + point).innerHTML = '<b>ON</b>';
+    }
+  },
 
-    if(obj) {
-      for(bet in obj) {
-        Craps.purse.amount -= obj[bet]; // Take from purse
-        Table.bet[bet].amount += obj[bet]; // Add to table
-        Table.refresh([bet]); // Refresh HTML
+  addBets: function(obj) {
+    if (obj) {
+      for (let bet in obj) {
+        Craps.purse.amount -= obj[bet];
+        Table.bet[bet].amount += obj[bet];
+        Table.refresh([bet]);
       }
     }
-
   },
 
-  moveBets: function(array) { // array of bet and destination pairings [['hard4','hard6'], ['passline','field']]
-
-    if(array.length) {
-      for(let pair of array) {
+  moveBets: function(array) {
+    if (array.length) {
+      for (let pair of array) {
         Table.bet[pair[1]].amount += Table.bet[pair[0]].amount;
         Table.bet[pair[0]].amount = 0;
         Table.refresh([pair[0], pair[1]]);
       }
     }
-
   },
 
-  removeBets: function(array) { // array of bets e.g. ['passline', 'dontpass'];
-
-    if(array.length) {
-      for(let bet of array) {
-        Craps.purse.amount += Table.bet[bet].amount; // Add to purse
-        Table.bet[bet].amount = 0; // Remove from table
-        Table.refresh([bet]); // Refresh HTML
+  removeBets: function(array) {
+    if (array.length) {
+      for (let bet of array) {
+        Craps.purse.amount += Table.bet[bet].amount;
+        Table.bet[bet].amount = 0;
+        Table.refresh([bet]);
       }
     }
-
   },
 
-  betsOn: function(array) { // array of bets e.g. ['passline', 'dontpass'];
-
-    if(array.length) {
-      for(let bet of array) {
+  betsOn: function(array) {
+    if (array.length) {
+      for (let bet of array) {
         Table.bet[bet].working = 1;
         Table.refresh([bet]);
       }
     }
-
   },
 
-  betsOff: function(array) { // array of bets e.g. ['passline', 'dontpass'];
-
-    if(array) {
-      for(let bet of array) {
+  betsOff: function(array) {
+    if (array.length) {
+      for (let bet of array) {
         Table.bet[bet].working = 0;
         Table.refresh([bet]);
       }
     }
-
   },
 
   hasBet: function(bet) {
-
-    return (bet && Table.bet[bet].amount) ? true : false;
-
+    return bet && Table.bet[bet].amount ? true : false;
   }
-
 };
